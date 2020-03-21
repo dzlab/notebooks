@@ -6,7 +6,7 @@
 
 https://dzlab.github.io/notebooks/
 
-# My Blog
+# Notebooks by dzlab
 
 
 _powered by [fastpages](https://github.com/fastai/fastpages)_

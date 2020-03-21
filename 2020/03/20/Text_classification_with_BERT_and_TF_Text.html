@@ -1,0 +1,1234 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Title | notebooks</title>
+<meta name="generator" content="Jekyll v4.0.0" />
+<meta property="og:title" content="Title" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="summary" />
+<meta property="og:description" content="summary" />
+<link rel="canonical" href="https://dzlab.github.io/notebooks/2020/03/20/Text_classification_with_BERT_and_TF_Text.html" />
+<meta property="og:url" content="https://dzlab.github.io/notebooks/2020/03/20/Text_classification_with_BERT_and_TF_Text.html" />
+<meta property="og:site_name" content="notebooks" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-03-20T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2020-03-20T00:00:00-05:00","dateModified":"2020-03-20T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://dzlab.github.io/notebooks/2020/03/20/Text_classification_with_BERT_and_TF_Text.html"},"description":"summary","@type":"BlogPosting","url":"https://dzlab.github.io/notebooks/2020/03/20/Text_classification_with_BERT_and_TF_Text.html","headline":"Title","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/notebooks/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://dzlab.github.io/notebooks/feed.xml" title="notebooks" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-155197388-1','auto');ga('require','displayfeatures');ga('send','pageview');</script>
+
+<link rel="shortcut icon" type="image/x-icon" href="/notebooks/images/favicon.ico"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Title | notebooks</title>
+<meta name="generator" content="Jekyll v4.0.0" />
+<meta property="og:title" content="Title" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="summary" />
+<meta property="og:description" content="summary" />
+<link rel="canonical" href="https://dzlab.github.io/notebooks/2020/03/20/Text_classification_with_BERT_and_TF_Text.html" />
+<meta property="og:url" content="https://dzlab.github.io/notebooks/2020/03/20/Text_classification_with_BERT_and_TF_Text.html" />
+<meta property="og:site_name" content="notebooks" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-03-20T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2020-03-20T00:00:00-05:00","dateModified":"2020-03-20T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://dzlab.github.io/notebooks/2020/03/20/Text_classification_with_BERT_and_TF_Text.html"},"description":"summary","@type":"BlogPosting","url":"https://dzlab.github.io/notebooks/2020/03/20/Text_classification_with_BERT_and_TF_Text.html","headline":"Title","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+<link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" />
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css"><link type="application/atom+xml" rel="alternate" href="https://dzlab.github.io/notebooks/feed.xml" title="notebooks" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-155197388-1','auto');ga('require','displayfeatures');ga('send','pageview');</script>
+
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head><body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/notebooks/">notebooks</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/notebooks/about/">About Me</a><a class="page-link" href="/notebooks/search/">Search</a><a class="page-link" href="/notebooks/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Title</h1><p class="page-description">summary</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2020-03-20T00:00:00-05:00" itemprop="datePublished">
+        Mar 20, 2020
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      18 min read
+    
+</span></p>
+
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-wrap flex-justify-end">
+          <div class="px-2">
+
+    <a href="https://github.com/dzlab/notebooks/tree/master/_notebooks/Text_classification_with_BERT_and_TF_Text.ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/notebooks/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/dzlab/notebooks/master?filepath=_notebooks%2FText_classification_with_BERT_and_TF_Text.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/notebooks/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/dzlab/notebooks/blob/master/_notebooks/Text_classification_with_BERT_and_TF_Text.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/notebooks/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/Text_classification_with_BERT_and_TF_Text.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Text-classification-with-BERT-using-TF-Text">Text classification with BERT using TF Text<a class="anchor-link" href="#Text-classification-with-BERT-using-TF-Text"> </a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Setup">Setup<a class="anchor-link" href="#Setup"> </a></h2>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">try</span><span class="p">:</span>
+    <span class="c1"># %tensorflow_version only exists in Colab.</span>
+    <span class="o">%</span><span class="k">tensorflow_version</span> 2.x
+<span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+    <span class="k">pass</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>TensorFlow 2.x selected.
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Install-dependencies">Install dependencies<a class="anchor-link" href="#Install-dependencies"> </a></h3>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%capture</span>
+<span class="o">%%</span><span class="n">bash</span>
+
+<span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="n">tensorflow</span><span class="o">-</span><span class="n">text</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Import-modules">Import modules<a class="anchor-link" href="#Import-modules"> </a></h3>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+
+<span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
+<span class="kn">import</span> <span class="nn">tensorflow_text</span> <span class="k">as</span> <span class="nn">text</span>
+<span class="kn">import</span> <span class="nn">tensorflow_hub</span> <span class="k">as</span> <span class="nn">hub</span>
+<span class="kn">import</span> <span class="nn">tensorflow_datasets</span> <span class="k">as</span> <span class="nn">tfds</span>
+
+<span class="kn">from</span> <span class="nn">tensorflow.keras.layers</span> <span class="kn">import</span> <span class="n">Dense</span><span class="p">,</span> <span class="n">Dropout</span><span class="p">,</span> <span class="n">Input</span>
+<span class="kn">from</span> <span class="nn">tensorflow.keras.models</span> <span class="kn">import</span> <span class="n">Model</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Set default options for modules</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;display.max_colwidth&#39;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="GPU-check">GPU check<a class="anchor-link" href="#GPU-check"> </a></h3>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">num_gpus_available</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">experimental</span><span class="o">.</span><span class="n">list_physical_devices</span><span class="p">(</span><span class="s1">&#39;GPU&#39;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Num GPUs Available: &quot;</span><span class="p">,</span> <span class="n">num_gpus_available</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">num_gpus_available</span> <span class="o">&gt;</span> <span class="mi">0</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Num GPUs Available:  1
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">config</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s1">&#39;seed&#39;</span><span class="p">:</span> <span class="mi">31</span><span class="p">,</span>
+  <span class="s1">&#39;batch_size&#39;</span><span class="p">:</span> <span class="mi">64</span><span class="p">,</span>
+  <span class="s1">&#39;epochs&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+  <span class="s1">&#39;max_seq_len&#39;</span><span class="p">:</span> <span class="mi">128</span>
+<span class="p">}</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Data">Data<a class="anchor-link" href="#Data"> </a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Download the pretrained BERT model</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">BERT_URL</span> <span class="o">=</span> <span class="s2">&quot;https://tfhub.dev/tensorflow/bert_en_uncased_L-12_H-768_A-12/1&quot;</span>
+<span class="n">bert_layer</span> <span class="o">=</span> <span class="n">hub</span><span class="o">.</span><span class="n">KerasLayer</span><span class="p">(</span><span class="n">BERT_URL</span><span class="p">,</span> <span class="n">trainable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">vocab_file</span> <span class="o">=</span> <span class="n">bert_layer</span><span class="o">.</span><span class="n">resolved_object</span><span class="o">.</span><span class="n">vocab_file</span><span class="o">.</span><span class="n">asset_path</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+<span class="n">do_lower_case</span> <span class="o">=</span> <span class="n">bert_layer</span><span class="o">.</span><span class="n">resolved_object</span><span class="o">.</span><span class="n">do_lower_case</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;BERT vocab is stored at     : </span><span class="si">{</span><span class="n">vocab_file</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;BERT model is case sensitive: </span><span class="si">{</span><span class="n">do_lower_case</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>BERT vocab is stored at     : b&#39;/tmp/tfhub_modules/03d6fb3ce1605ad9e5e9ed5346b2fb9623ef4d3d/assets/vocab.txt&#39;
+BERT model is case sensitive: True
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Load the vocab file that corresponds to the pretrained BERT</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">load_vocab</span><span class="p">(</span><span class="n">vocab_file</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Load a vocabulary file into a list.&quot;&quot;&quot;</span>
+  <span class="n">vocab</span> <span class="o">=</span> <span class="p">[]</span>
+  <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">gfile</span><span class="o">.</span><span class="n">GFile</span><span class="p">(</span><span class="n">vocab_file</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">reader</span><span class="p">:</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+      <span class="n">token</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+      <span class="k">if</span> <span class="ow">not</span> <span class="n">token</span><span class="p">:</span> <span class="k">break</span>
+      <span class="n">token</span> <span class="o">=</span> <span class="n">token</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+      <span class="n">vocab</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">vocab</span>
+
+<span class="n">vocab</span> <span class="o">=</span> <span class="n">load_vocab</span><span class="p">(</span><span class="n">vocab_file</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Use BERT vocab to create a word to index lookup table</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">create_vocab_table</span><span class="p">(</span><span class="n">vocab</span><span class="p">,</span> <span class="n">num_oov</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Create a lookup table for a vocabulary&quot;&quot;&quot;</span>
+  <span class="n">vocab_values</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">range</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="n">vocab</span><span class="p">,</span> <span class="n">out_type</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">int64</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
+  <span class="n">init</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">lookup</span><span class="o">.</span><span class="n">KeyValueTensorInitializer</span><span class="p">(</span><span class="n">keys</span><span class="o">=</span><span class="n">vocab</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="n">vocab_values</span><span class="p">,</span> <span class="n">key_dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">string</span><span class="p">,</span> <span class="n">value_dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
+  <span class="n">vocab_table</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">lookup</span><span class="o">.</span><span class="n">StaticVocabularyTable</span><span class="p">(</span><span class="n">init</span><span class="p">,</span> <span class="n">num_oov</span><span class="p">,</span> <span class="n">lookup_key_dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">string</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">vocab_table</span>
+
+<span class="n">vocab_lookup_table</span> <span class="o">=</span> <span class="n">create_vocab_table</span><span class="p">(</span><span class="n">vocab</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Use BERT vocab to create a index to word lookup table</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">create_index2word</span><span class="p">(</span><span class="n">vocab</span><span class="p">):</span>
+  <span class="c1"># Create a lookup table for a index to token</span>
+  <span class="n">vocab_values</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">range</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="n">vocab</span><span class="p">,</span> <span class="n">out_type</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">int64</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
+  <span class="n">init</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">lookup</span><span class="o">.</span><span class="n">KeyValueTensorInitializer</span><span class="p">(</span><span class="n">keys</span><span class="o">=</span><span class="n">vocab_values</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="n">vocab</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">tf</span><span class="o">.</span><span class="n">lookup</span><span class="o">.</span><span class="n">StaticHashTable</span><span class="p">(</span><span class="n">initializer</span><span class="o">=</span><span class="n">init</span><span class="p">,</span> <span class="n">default_value</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">(</span><span class="s1">&#39;unk&#39;</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;index2word&quot;</span><span class="p">)</span>
+
+<span class="n">index2word</span> <span class="o">=</span> <span class="n">create_index2word</span><span class="p">(</span><span class="n">vocab</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Check out the indices for the following tokens</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">vocab_lookup_table</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">([</span><span class="s1">&#39;[PAD]&#39;</span><span class="p">,</span> <span class="s1">&#39;[UNK]&#39;</span><span class="p">,</span> <span class="s1">&#39;[CLS]&#39;</span><span class="p">,</span> <span class="s1">&#39;[SEP]&#39;</span><span class="p">,</span> <span class="s1">&#39;[MASK]&#39;</span><span class="p">]))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;tf.Tensor: shape=(5,), dtype=int64, numpy=array([  0, 100, 101, 102, 103])&gt;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Check out the token corresponding to an index</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">index2word</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">([</span><span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;int64&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[b&#39;[PAD]&#39;]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Create a BERT tokenizer using TF Text</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">BertTokenizer</span><span class="p">(</span>
+    <span class="n">vocab_lookup_table</span><span class="p">,</span>
+    <span class="n">token_out_type</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">int64</span><span class="p">,</span>
+    <span class="n">lower_case</span><span class="o">=</span><span class="n">do_lower_case</span>
+  <span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Lookup for the BERT token IDs for padding and start/end of sentence.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">PAD_ID</span> <span class="o">=</span> <span class="n">vocab_lookup_table</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">(</span><span class="s1">&#39;[PAD]&#39;</span><span class="p">))</span> <span class="c1"># padding token</span>
+<span class="n">CLS_ID</span> <span class="o">=</span> <span class="n">vocab_lookup_table</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">(</span><span class="s1">&#39;[CLS]&#39;</span><span class="p">))</span> <span class="c1"># class token</span>
+<span class="n">SEP_ID</span> <span class="o">=</span> <span class="n">vocab_lookup_table</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">(</span><span class="s1">&#39;[SEP]&#39;</span><span class="p">))</span> <span class="c1"># sequence separator token</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Preprocessing">Preprocessing<a class="anchor-link" href="#Preprocessing"> </a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Define the logic to preprocess data and format it as required by BERT</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">preprocess</span><span class="p">(</span><span class="n">record</span><span class="p">):</span>
+  <span class="n">review</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="n">record</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">],</span> <span class="n">record</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span>
+  <span class="c1"># process review to calculate BERT input</span>
+  <span class="n">ids</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="n">type_ids</span> <span class="o">=</span> <span class="n">preprocess_bert_input</span><span class="p">(</span><span class="n">review</span><span class="p">)</span>
+  <span class="k">return</span> <span class="p">(</span><span class="n">ids</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="n">type_ids</span><span class="p">),</span> <span class="n">label</span>
+
+<span class="k">def</span> <span class="nf">preprocess_bert_input</span><span class="p">(</span><span class="n">review</span><span class="p">):</span>
+  <span class="c1"># calculate tokens ID</span>
+  <span class="n">ids</span> <span class="o">=</span> <span class="n">tokenize_text</span><span class="p">(</span><span class="n">review</span><span class="p">,</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;max_seq_len&#39;</span><span class="p">])</span>
+  <span class="c1"># calculate mask</span>
+  <span class="n">mask</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">ids</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
+  <span class="n">mask</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;max_seq_len&#39;</span><span class="p">]])</span>
+  <span class="c1"># calculate tokens type ID</span>
+  <span class="n">zeros_dims</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">mask</span><span class="p">))</span>
+  <span class="n">type_ids</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">zeros_dims</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+  <span class="n">type_ids</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">type_ids</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
+
+  <span class="k">return</span> <span class="p">(</span><span class="n">ids</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="n">type_ids</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">tokenize_text</span><span class="p">(</span><span class="n">review</span><span class="p">,</span> <span class="n">seq_len</span><span class="p">):</span>
+  <span class="c1"># convert text into token ids</span>
+  <span class="n">tokens</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">tokenize</span><span class="p">(</span><span class="n">review</span><span class="p">)</span>
+  <span class="c1"># flatten the output ragged tensors</span>
+  <span class="n">tokens</span> <span class="o">=</span> <span class="n">tokens</span><span class="o">.</span><span class="n">merge_dims</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)[:,</span> <span class="p">:</span><span class="n">seq_len</span><span class="p">]</span>
+  <span class="c1"># Add start and end token ids to the id sequence</span>
+  <span class="n">start_tokens</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">fill</span><span class="p">([</span><span class="n">tf</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">review</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">],</span> <span class="n">CLS_ID</span><span class="p">)</span>
+  <span class="n">end_tokens</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">fill</span><span class="p">([</span><span class="n">tf</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">review</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">],</span> <span class="n">SEP_ID</span><span class="p">)</span>
+  <span class="n">tokens</span> <span class="o">=</span> <span class="n">tokens</span><span class="p">[:,</span> <span class="p">:</span><span class="n">seq_len</span> <span class="o">-</span> <span class="mi">2</span><span class="p">]</span>
+  <span class="n">tokens</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">start_tokens</span><span class="p">,</span> <span class="n">tokens</span><span class="p">,</span> <span class="n">end_tokens</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+  <span class="c1"># truncate sequences greater than MAX_SEQ_LEN</span>
+  <span class="n">tokens</span> <span class="o">=</span> <span class="n">tokens</span><span class="p">[:,</span> <span class="p">:</span><span class="n">seq_len</span><span class="p">]</span>
+  <span class="c1"># pad shorter sequences with the pad token id</span>
+  <span class="n">tokens</span> <span class="o">=</span> <span class="n">tokens</span><span class="o">.</span><span class="n">to_tensor</span><span class="p">(</span><span class="n">default_value</span><span class="o">=</span><span class="n">PAD_ID</span><span class="p">)</span>
+  <span class="n">pad</span> <span class="o">=</span> <span class="n">seq_len</span> <span class="o">-</span> <span class="n">tf</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">tokens</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+  <span class="n">tokens</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">tokens</span><span class="p">,</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">pad</span><span class="p">]],</span> <span class="n">constant_values</span><span class="o">=</span><span class="n">PAD_ID</span><span class="p">)</span>
+
+  <span class="c1"># and finally reshape the word token ids to fit the output </span>
+  <span class="c1"># data structure of TFT </span>
+  <span class="k">return</span> <span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">tokens</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">seq_len</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Dataset">Dataset<a class="anchor-link" href="#Dataset"> </a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Download the dataset from TF Hub and process it</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">train_ds</span><span class="p">,</span> <span class="n">valid_ds</span> <span class="o">=</span> <span class="n">tfds</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;imdb_reviews&#39;</span><span class="p">,</span> <span class="n">split</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;train&#39;</span><span class="p">,</span> <span class="s1">&#39;test&#39;</span><span class="p">],</span> <span class="n">shuffle_files</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">train_ds</span> <span class="o">=</span> <span class="n">train_ds</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span><span class="o">.</span><span class="n">batch</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;batch_size&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">prefetch</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">experimental</span><span class="o">.</span><span class="n">AUTOTUNE</span><span class="p">)</span>
+<span class="n">valid_ds</span> <span class="o">=</span> <span class="n">valid_ds</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span><span class="o">.</span><span class="n">batch</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;batch_size&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">prefetch</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">experimental</span><span class="o">.</span><span class="n">AUTOTUNE</span><span class="p">)</span>
+
+<span class="n">train_ds</span><span class="p">,</span> <span class="n">valid_ds</span> <span class="o">=</span> <span class="n">train_ds</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">preprocess</span><span class="p">),</span> <span class="n">valid_ds</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">preprocess</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Model">Model<a class="anchor-link" href="#Model"> </a></h2>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">input_ids</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;max_seq_len&#39;</span><span class="p">],),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">int32</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;input_ids&quot;</span><span class="p">)</span>
+<span class="n">input_mask</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;max_seq_len&#39;</span><span class="p">],),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">int32</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;input_mask&quot;</span><span class="p">)</span>
+<span class="n">input_type_ids</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;max_seq_len&#39;</span><span class="p">],),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">int32</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;input_type_ids&quot;</span><span class="p">)</span>
+
+<span class="n">pooled_output</span><span class="p">,</span> <span class="n">sequence_output</span> <span class="o">=</span> <span class="n">bert_layer</span><span class="p">([</span><span class="n">input_ids</span><span class="p">,</span> <span class="n">input_mask</span><span class="p">,</span> <span class="n">input_type_ids</span><span class="p">])</span>
+<span class="n">drop_out</span> <span class="o">=</span> <span class="n">Dropout</span><span class="p">(</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;dropout&quot;</span><span class="p">)(</span><span class="n">pooled_output</span><span class="p">)</span>
+<span class="n">output</span> <span class="o">=</span> <span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;sigmoid&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">)(</span><span class="n">drop_out</span><span class="p">)</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="n">input_ids</span><span class="p">,</span> <span class="n">input_mask</span><span class="p">,</span> <span class="n">input_type_ids</span><span class="p">],</span> <span class="n">outputs</span><span class="o">=</span><span class="n">output</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="s2">&quot;adam&quot;</span><span class="p">,</span> <span class="n">loss</span><span class="o">=</span><span class="s2">&quot;binary_crossentropy&quot;</span><span class="p">,</span> <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;accuracy&quot;</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Model: &#34;model_1&#34;
+__________________________________________________________________________________________________
+Layer (type)                    Output Shape         Param #     Connected to                     
+==================================================================================================
+input_ids (InputLayer)          [(None, 128)]        0                                            
+__________________________________________________________________________________________________
+input_mask (InputLayer)         [(None, 128)]        0                                            
+__________________________________________________________________________________________________
+input_type_ids (InputLayer)     [(None, 128)]        0                                            
+__________________________________________________________________________________________________
+keras_layer (KerasLayer)        [(None, 768), (None, 109482241   input_ids[0][0]                  
+                                                                 input_mask[0][0]                 
+                                                                 input_type_ids[0][0]             
+__________________________________________________________________________________________________
+dropout (Dropout)               (None, 768)          0           keras_layer[1][0]                
+__________________________________________________________________________________________________
+linear (Dense)                  (None, 1)            769         dropout[0][0]                    
+==================================================================================================
+Total params: 109,483,010
+Trainable params: 769
+Non-trainable params: 109,482,241
+__________________________________________________________________________________________________
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Training">Training<a class="anchor-link" href="#Training"> </a></h3>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_ds</span><span class="p">,</span> <span class="n">validation_data</span><span class="o">=</span><span class="n">valid_ds</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;epochs&#39;</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Epoch 1/10
+391/391 [==============================] - 499s 1s/step - loss: 0.6654 - accuracy: 0.6016 - val_loss: 0.5977 - val_accuracy: 0.7028
+Epoch 2/10
+391/391 [==============================] - 510s 1s/step - loss: 0.6063 - accuracy: 0.6712 - val_loss: 0.5650 - val_accuracy: 0.7282
+Epoch 3/10
+391/391 [==============================] - 510s 1s/step - loss: 0.5839 - accuracy: 0.6969 - val_loss: 0.5494 - val_accuracy: 0.7362
+Epoch 4/10
+391/391 [==============================] - 511s 1s/step - loss: 0.5730 - accuracy: 0.7025 - val_loss: 0.5388 - val_accuracy: 0.7455
+Epoch 5/10
+391/391 [==============================] - 510s 1s/step - loss: 0.5696 - accuracy: 0.7058 - val_loss: 0.5376 - val_accuracy: 0.7417
+Epoch 6/10
+391/391 [==============================] - 510s 1s/step - loss: 0.5613 - accuracy: 0.7146 - val_loss: 0.5268 - val_accuracy: 0.7517
+Epoch 7/10
+391/391 [==============================] - 510s 1s/step - loss: 0.5608 - accuracy: 0.7130 - val_loss: 0.5233 - val_accuracy: 0.7544
+Epoch 8/10
+391/391 [==============================] - 510s 1s/step - loss: 0.5625 - accuracy: 0.7106 - val_loss: 0.5217 - val_accuracy: 0.7555
+Epoch 9/10
+391/391 [==============================] - 510s 1s/step - loss: 0.5603 - accuracy: 0.7125 - val_loss: 0.5199 - val_accuracy: 0.7535
+Epoch 10/10
+391/391 [==============================] - 510s 1s/step - loss: 0.5567 - accuracy: 0.7159 - val_loss: 0.5150 - val_accuracy: 0.7591
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;tensorflow.python.keras.callbacks.History at 0x7f2fffddba58&gt;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Evaluation">Evaluation<a class="anchor-link" href="#Evaluation"> </a></h3>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_text_ds</span> <span class="o">=</span> <span class="n">tfds</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;imdb_reviews&#39;</span><span class="p">,</span> <span class="n">split</span><span class="o">=</span><span class="s1">&#39;unsupervised&#39;</span><span class="p">,</span> <span class="n">shuffle_files</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">test_ds</span> <span class="o">=</span> <span class="n">test_text_ds</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span><span class="o">.</span><span class="n">batch</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;batch_size&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">prefetch</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">experimental</span><span class="o">.</span><span class="n">AUTOTUNE</span><span class="p">)</span>
+<span class="n">test_ds</span> <span class="o">=</span> <span class="n">test_ds</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">preprocess</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Check how test text is tokenized</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_text</span> <span class="o">=</span> <span class="p">[</span><span class="n">record</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span> <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="n">test_text_ds</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="mi">10</span><span class="p">)]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ids</span> <span class="o">=</span> <span class="n">tokenize_text</span><span class="p">(</span><span class="n">test_text</span><span class="p">,</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;max_seq_len&#39;</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">tokens</span> <span class="o">=</span> <span class="p">[</span><span class="sa">b</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tokens_array</span><span class="p">)</span> <span class="k">for</span> <span class="n">tokens_array</span> <span class="ow">in</span> <span class="n">index2word</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="n">ids</span><span class="p">)</span><span class="o">.</span><span class="n">numpy</span><span class="p">()]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;tokens&#39;</span><span class="p">:</span> <span class="n">tokens</span><span class="p">})</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>tokens</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>b"[CLS] spoil ##er - now knowing the ending i find it so clever that the whole movie takes place in a motel and each character has a different room . even sane people have many different aspects to their personality , but they don ' t let them become dominant - - they are controlled . malcolm ' s various personalities and needs were person ##ified in each character . the prostitute mother ( amanda pee ##t ) , the part of him who hated her for being a prostitute ( larry ) , the loving mother he wish he had , the loving father he wish he had , the selfish part of himself ( actress ) , the violent part of his personality ( ray [SEP]"</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>b"[CLS] i knew about this film long before i saw it . in fact , i had to buy the dvd in order to see it because no video store carried it . i didn ' t mind spending the $ 12 to buy it used because i collect off the wall movies . the new limited edition double dvd has great sound and visually not bad . i found myself laughing much more then &lt; br / &gt; &lt; br / &gt; jolt ##ing in fear , although there were a few scenes were i was startled . &lt; br / &gt; &lt; br / &gt; if you enjoy off the wall 70s sci - fi / horror movies , you probably will eat this one [SEP]"</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>b"[CLS] this movie is really really awful . it ' s as bad as zombie 90 well maybe not that bad but pretty close . if your a fan of the italian horror movies then you might like this movie . i thought that it was dam near un ##watch ##able of course i ' m not a fan of the italian movies . the only italian movie that was ok was jungle holocaust . which is one over ##rated movie . this film is way over ##rated . but let ' s get started with how horrible this film really is shall we . the acting is goofy and horrible . the effects suck . no plot with this movie . little gore which is the [SEP]"</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>b'[CLS] wait a minute . . . yes i do . &lt; br / &gt; &lt; br / &gt; the director of \' the breed \' has obviously seen terry gill ##iam \' s \' brazil \' a few too many times and asked himself the question , " if \' brazil \' had been an ill - conceived tale about vampires in the near future , what would it be like ? " well , i \' ll tell ya , it \' d be like 91 minutes of a swedish whore kicking you in the groin , only not as satisfying . the dialogue was laced with gr ##at ##uit ##ous curse words and tri ##te one - liner ##s , and whoever edited this [SEP]'</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>b"[CLS] this is the type of movie that ' s just barely involving enough for one viewing , but i don ' t think i could stand to watch it again . it looks and plays like a mid - seventies tv movie , only with some gr ##at ##uit ##ous sex and violence thrown in . &lt; br / &gt; &lt; br / &gt; i agree with several previous posters - - her ##ve ville ##chai ##ze is not very menacing , and at times even comes off as un ##int ##ended comedy . at least the other two villains make up for that . also , it was jolt ##ing to see jonathan fr ##id is such a pedestrian role , which definitely under - [SEP]"</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>b"[CLS] i like sci - fi movies and everything ' bout it and aliens , so i watched this flick . nothing new , nothing special , average acting , typical h . b . davenport ' story , weak and che ##es ##y fx ' s , bad ending of movie , but still the author idea is good . the marines on lost island find the truth about alien landing there and truth about past - experiments on them . they die one after one , some of them were killed by lonely alien , and others by human enemies . ufo effects , when it flees and crush ##es are bad , too . the voices of angry alien are funny , too . [SEP]"</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>b"[CLS] i was lucky enough to see a preview of this film tonight . this was a very cool , eerie film . well acted , especially by ska ##rs ##gard who played his role of terry glass perfectly . sob ##ies ##ki did a very good job too as it seems to me that she has a bright future ahead of her . the music was well placed but was fairly standard . the use of shadows was quite interesting as well . overall , this was quite a nice surprise considering i ' m not much a fan of this genre . 7 / 10 . [SEP] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD]"</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>b'[CLS] my kids and i love this movie ! ! we think that richard pry ##or and the whole cast did a wonderful job in the movie . it means more to us now since the passing of richard ! ! we will miss his sense of humor . but his movies and shows will stay with us forever ! ! we especially love the parts of brad , frank crawford and ar ##lo pear ! ! they had some one liner ##s in the movie that were great ! ! my son and i love to quote those one liner ##s when we see each other and my daughter will join us when we discuss the movie . we thought the moving guys were terrific . [SEP]'</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>b"[CLS] somehow the an ##ima ##trix shorts with the most interesting premises have the worst outcome . mat ##ric ##ulated is the worst of the bunch ( although it ' s a close call with program ) , as it takes a great idea ( showing the machines the beauty of mankind by plug ##ging them in ) and turns it into the worst experience of the 9 . &lt; br / &gt; &lt; br / &gt; as i said , the story begins promising and interesting , but ends with a long , long , long sequence of ' weird ' images , a cross between the famous scenes from 2001 and v ##ga - rain ( who can remember it ) , but not as [SEP]"</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>b"[CLS] while holiday ##ing in the basque region of spain , two couples discover a child whose hands are severely miss ##ha ##pen . the child has been gravely mist ##reate ##d , and , as a result , cannot communicate . the two couples reluctantly decide to rescue her and report her circumstances to the authorities . however , severe weather and the dense ##ness of the forest surrounding their holiday home make it impossible for them to make a quick get ##away . soon , the local inhabitants become aware that the girl is missing , and they right ##ly suspect the holiday - makers of taking her . suspicions and paranoia begin to fest ##er , and it isn ' t long before violence [SEP]"</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Run prediction on test reviews</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">test_ds</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">result</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(50000, 1)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">result_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="n">tf</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">result</span><span class="p">[:</span><span class="mi">10</span><span class="p">])</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="s1">&#39;text&#39;</span><span class="p">:</span> <span class="n">test_text</span><span class="p">})</span>
+<span class="n">result_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>label</th>
+      <th>text</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.464566</td>
+      <td>b"SPOILER - Now knowing the ending I find it so clever that the whole movie takes place in a motel and each character has a different room. Even sane people have many different aspects to their personality, but they don't let them become dominant -- they are controlled. Malcolm's various personalities and needs were personified in each character. The prostitute mother (Amanda Peet), the part of him who hated her for being a prostitute (Larry), the loving mother he wish he had, the loving father he wish he had, the selfish part of himself (actress), the violent part of his personality (Ray Liotta and Busey), the irrational emotions he feels and his need to be loved (Ginnie) and his attempts to control those feelings (Lou), the hurt little boy who sees far too many traumatic things in his life, and of course, John Cusack who seems to represent Malcolm himself trying to analyze and understand all the craziness in his mind, tries to follow the rules (accepting responsibility for the car accident), help others (giving Amanda Peet a ride, and stitching up the mother). Very cleverly done!"</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.252326</td>
+      <td>b'I knew about this film long before I saw it. In fact, I had to buy the DVD in order to see it because no video store carried it. I didn\'t mind spending the $12 to buy it used because I collect off the wall movies. The new limited edition double DVD has great sound and visually not bad. I found myself laughing much more then&lt;br /&gt;&lt;br /&gt;jolting in fear, although there were a few scenes were I was startled.&lt;br /&gt;&lt;br /&gt;If you enjoy off the wall 70s sci-fi/horror movies, you probably will eat this one up. I was a little dissapointed at how abrubtly it ended. I wanted the movie to keep going, see how things pan out. The DVD revolution has brought so many&lt;br /&gt;&lt;br /&gt;lost clasics back to life, it is truly wonderful. Blue Sunshine is one of those lost "missing links" of the cinema. Enjoy!'</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.485239</td>
+      <td>b"This movie is really really awful. It's as bad as Zombie 90 well maybe not that bad but pretty close. If your a fan of the Italian horror movies then you might like this movie. I thought that it was dam near unwatchable of course I'm not a fan of the Italian movies. The only Italian movie that was OK was Jungle holocaust. Which is one overrated movie. This film is way overrated. But let's get started with how horrible this film really is shall we. The acting is goofy and horrible. The effects suck. No plot with this movie. Little gore which is the only good thing in the film isn't showed nearly enough to be worth watching this wreck. The zombies are very fake looking. It looks like it's a bunch of dudes wearing cheap dollar store masks. Please avoid this film at all costs."</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.251897</td>
+      <td>b'Wait a minute... yes I do.&lt;br /&gt;&lt;br /&gt;The director of \'The Breed\' has obviously seen Terry Gilliam\'s \'Brazil\' a few too many times and asked himself the question, "If \'Brazil\' had been an ill-conceived tale about vampires in the near future, what would it be like?" Well, I\'ll tell ya, it\'d be like 91 minutes of a Swedish whore kicking you in the groin, only not as satisfying. The dialogue was laced with gratuitous curse words and trite one-liners, and whoever edited this piece of crap should be shot. I have no real idea of exactly how the whole thing ended because I\'m not really sure what happened during the first part of the film. With so many subplots your head begins to hurt and so much bad acting your head wants to explode this movie should only be viewed with large quantities of beer and at least two other people you can MST3K with. The only thing that made me not stab myself in the eye with a dirty soup spoon was this line: Evil Doctor Guy: "That\'s it, you are not James Bond, and I am not Blofeld. No more explanations!" Dude From Jason\'s Lyric: "I\'m getting paid scale!" The cinematography was shaky at best and the acting was putrid. Also, what was with all the pseudo-1984 posters and PA announcements? The costumes were from the 50\'s, the cars were from the 60\'s, the music was from the 90\'s and I wish I were dead. This movie sucks.'</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.274131</td>
+      <td>b'This is the type of movie that\'s just barely involving enough for one viewing, but I don\'t think I could stand to watch it again. It looks and plays like a mid-Seventies TV movie, only with some gratuitous sex and violence thrown in.&lt;br /&gt;&lt;br /&gt;I agree with several previous posters -- Herve Villechaize is NOT very menacing, and at times even comes off as unintended comedy. At least the other two villains make up for that. Also, it was jolting to see Jonathan Frid is such a pedestrian role, which definitely under-utilized his enormous talents.&lt;br /&gt;&lt;br /&gt;But I think the basic problem with "Seizure" is in the storyline. The evil trio that are conjured up from Frid\'s mind are seen too early and too often. They appear to everyone at once, and announce their (murky) plans too early in the picture. In fact, Stone takes this idea and literally shoves it in the viewer\'s face, with a series of challenges for the guests; challenges that it doesn\'t seem like they have any chance of winning, anyway. How much more effective would have been keeping the evil ones in the shadows, preying on each house guest in turn, sowing confusion and doubt among the remaining house guests, who don\'t know who or what is causing the carnage. By having the trio appear early on, to all the "assembled guests", and announcing their plan (confusing as that plan is), much potential for tension and suspense are lost.&lt;br /&gt;&lt;br /&gt;Also, a more gradual appearance of the evil ones would indicate Frid is slowing losing control of his subconscious. To have Frid subconsciously conjure up these baddies, because he\'s got hidden grudges against his wife and friends, would have been a far more logical plot device. Instead of having Frid play an intended victim from the get-go, it would have worked better to have him slowing becoming helpless to control the menace he\'s created, with mixed feelings of guilt and satisfaction as his shallow, superficial friends are killed off. The plot Stone offers up is confusing as to the origins and, most importantly, the motivations of the evil trio, and never gives any explanation why Frid, from whose mind they came from, can exercise absolutely no control over them. Confusing is the word that best sums up the whole picture, and the end feels like a total cheat. Better to have some great showdown in which Frid is finally able to banish the creations of his own tormented mind.&lt;br /&gt;&lt;br /&gt;Oliver Stone has done some notable work in his career, but sadly "Seizure" is not among them.'</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+</div>
+
+
+
+  </div><a class="u-url" href="/notebooks/2020/03/20/Text_classification_with_BERT_and_TF_Text.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/notebooks/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/notebooks/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/notebooks/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>A collection of Jupyter Notebooks beautifully rendered in html.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/dzlab" title="dzlab"><svg class="svg-icon grey"><use xlink:href="/notebooks/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/bachiirc" title="bachiirc"><svg class="svg-icon grey"><use xlink:href="/notebooks/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
