@@ -3,19 +3,19 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.1 -->
-<title>Title | notebooks</title>
+<title>Text classification with BERT using TF Text | notebooks</title>
 <meta name="generator" content="Jekyll v4.0.0" />
-<meta property="og:title" content="Title" />
+<meta property="og:title" content="Text classification with BERT using TF Text" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="summary" />
-<meta property="og:description" content="summary" />
-<link rel="canonical" href="https://dzlab.github.io/notebooks/2020/03/15/Text_classification_with_BERT_and_TF_Text.html" />
-<meta property="og:url" content="https://dzlab.github.io/notebooks/2020/03/15/Text_classification_with_BERT_and_TF_Text.html" />
+<meta name="description" content="Learn how to use library TF Text to build a BERT-based Text classification model" />
+<meta property="og:description" content="Learn how to use library TF Text to build a BERT-based Text classification model" />
+<link rel="canonical" href="https://dzlab.github.io/notebooks/tensorflow/nlp/2020/03/15/Text_classification_with_BERT_and_TF_Text.html" />
+<meta property="og:url" content="https://dzlab.github.io/notebooks/tensorflow/nlp/2020/03/15/Text_classification_with_BERT_and_TF_Text.html" />
 <meta property="og:site_name" content="notebooks" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2020-03-15T00:00:00-05:00" />
 <script type="application/ld+json">
-{"datePublished":"2020-03-15T00:00:00-05:00","dateModified":"2020-03-15T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://dzlab.github.io/notebooks/2020/03/15/Text_classification_with_BERT_and_TF_Text.html"},"description":"summary","@type":"BlogPosting","url":"https://dzlab.github.io/notebooks/2020/03/15/Text_classification_with_BERT_and_TF_Text.html","headline":"Title","@context":"https://schema.org"}</script>
+{"datePublished":"2020-03-15T00:00:00-05:00","dateModified":"2020-03-15T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://dzlab.github.io/notebooks/tensorflow/nlp/2020/03/15/Text_classification_with_BERT_and_TF_Text.html"},"description":"Learn how to use library TF Text to build a BERT-based Text classification model","@type":"BlogPosting","url":"https://dzlab.github.io/notebooks/tensorflow/nlp/2020/03/15/Text_classification_with_BERT_and_TF_Text.html","headline":"Text classification with BERT using TF Text","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/notebooks/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://dzlab.github.io/notebooks/feed.xml" title="notebooks" /><!-- the google_analytics_id gets auto inserted from the config file -->
 
@@ -24,19 +24,19 @@
 <script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-155197388-1','auto');ga('require','displayfeatures');ga('send','pageview');</script>
 
 <link rel="shortcut icon" type="image/x-icon" href="/notebooks/images/favicon.ico"><!-- Begin Jekyll SEO tag v2.6.1 -->
-<title>Title | notebooks</title>
+<title>Text classification with BERT using TF Text | notebooks</title>
 <meta name="generator" content="Jekyll v4.0.0" />
-<meta property="og:title" content="Title" />
+<meta property="og:title" content="Text classification with BERT using TF Text" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="summary" />
-<meta property="og:description" content="summary" />
-<link rel="canonical" href="https://dzlab.github.io/notebooks/2020/03/15/Text_classification_with_BERT_and_TF_Text.html" />
-<meta property="og:url" content="https://dzlab.github.io/notebooks/2020/03/15/Text_classification_with_BERT_and_TF_Text.html" />
+<meta name="description" content="Learn how to use library TF Text to build a BERT-based Text classification model" />
+<meta property="og:description" content="Learn how to use library TF Text to build a BERT-based Text classification model" />
+<link rel="canonical" href="https://dzlab.github.io/notebooks/tensorflow/nlp/2020/03/15/Text_classification_with_BERT_and_TF_Text.html" />
+<meta property="og:url" content="https://dzlab.github.io/notebooks/tensorflow/nlp/2020/03/15/Text_classification_with_BERT_and_TF_Text.html" />
 <meta property="og:site_name" content="notebooks" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2020-03-15T00:00:00-05:00" />
 <script type="application/ld+json">
-{"datePublished":"2020-03-15T00:00:00-05:00","dateModified":"2020-03-15T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://dzlab.github.io/notebooks/2020/03/15/Text_classification_with_BERT_and_TF_Text.html"},"description":"summary","@type":"BlogPosting","url":"https://dzlab.github.io/notebooks/2020/03/15/Text_classification_with_BERT_and_TF_Text.html","headline":"Title","@context":"https://schema.org"}</script>
+{"datePublished":"2020-03-15T00:00:00-05:00","dateModified":"2020-03-15T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://dzlab.github.io/notebooks/tensorflow/nlp/2020/03/15/Text_classification_with_BERT_and_TF_Text.html"},"description":"Learn how to use library TF Text to build a BERT-based Text classification model","@type":"BlogPosting","url":"https://dzlab.github.io/notebooks/tensorflow/nlp/2020/03/15/Text_classification_with_BERT_and_TF_Text.html","headline":"Text classification with BERT using TF Text","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 <link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" />
@@ -97,16 +97,26 @@ window.onload = wrap_img;
         <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title p-name" itemprop="name headline">Title</h1><p class="page-description">summary</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2020-03-15T00:00:00-05:00" itemprop="datePublished">
+    <h1 class="post-title p-name" itemprop="name headline">Text classification with BERT using TF Text</h1><p class="page-description">Learn how to use library TF Text to build a BERT-based Text classification model</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2020-03-15T00:00:00-05:00" itemprop="datePublished">
         Mar 15, 2020
       </time>
        • <span class="read-time" title="Estimated read time">
     
     
-      19 min read
+      18 min read
     
 </span></p>
 
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/notebooks/categories/#tensorflow">tensorflow</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/notebooks/categories/#nlp">nlp</a>
+        
+      
+      </p>
     
 
     
@@ -134,7 +144,27 @@ window.onload = wrap_img;
       </header>
 
   <div class="post-content e-content" itemprop="articleBody">
-    <!--
+    <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#Setup">Setup </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#Install-dependencies">Install dependencies </a></li>
+<li class="toc-entry toc-h3"><a href="#Import-modules">Import modules </a></li>
+<li class="toc-entry toc-h3"><a href="#GPU-check">GPU check </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#Data">Data </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#Preprocessing">Preprocessing </a></li>
+<li class="toc-entry toc-h3"><a href="#Dataset">Dataset </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#Model">Model </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#Training">Training </a></li>
+<li class="toc-entry toc-h3"><a href="#Evaluation">Evaluation </a></li>
+</ul>
+</li>
+</ul><!--
 #################################################
 ### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
 #################################################
@@ -150,21 +180,12 @@ window.onload = wrap_img;
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Text-classification-with-BERT-using-TF-Text">Text classification with BERT using TF Text<a class="anchor-link" href="#Text-classification-with-BERT-using-TF-Text"> </a></h1><ul>
-<li>toc: true </li>
-<li>badges: true</li>
-<li>comments: true</li>
-<li>categories: [tensorflow, nlp]</li>
-</ul>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Setup">Setup<a class="anchor-link" href="#Setup"> </a></h2>
+<h2 id="Setup">
+<a class="anchor" href="#Setup" aria-hidden="true"><span class="octicon octicon-link"></span></a>Setup<a class="anchor-link" href="#Setup"> </a>
+</h2>
 </div>
 </div>
 </div>
@@ -203,9 +224,12 @@ window.onload = wrap_img;
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Install-dependencies">Install dependencies<a class="anchor-link" href="#Install-dependencies"> </a></h3>
+<h3 id="Install-dependencies">
+<a class="anchor" href="#Install-dependencies" aria-hidden="true"><span class="octicon octicon-link"></span></a>Install dependencies<a class="anchor-link" href="#Install-dependencies"> </a>
+</h3>
 </div>
 </div>
 </div>
@@ -229,9 +253,12 @@ window.onload = wrap_img;
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Import-modules">Import modules<a class="anchor-link" href="#Import-modules"> </a></h3>
+<h3 id="Import-modules">
+<a class="anchor" href="#Import-modules" aria-hidden="true"><span class="octicon octicon-link"></span></a>Import modules<a class="anchor-link" href="#Import-modules"> </a>
+</h3>
 </div>
 </div>
 </div>
@@ -264,7 +291,8 @@ window.onload = wrap_img;
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Set default options for modules</p>
 
@@ -278,7 +306,7 @@ window.onload = wrap_img;
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;display.max_colwidth&#39;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">'display.max_colwidth'</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -288,9 +316,12 @@ window.onload = wrap_img;
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="GPU-check">GPU check<a class="anchor-link" href="#GPU-check"> </a></h3>
+<h3 id="GPU-check">
+<a class="anchor" href="#GPU-check" aria-hidden="true"><span class="octicon octicon-link"></span></a>GPU check<a class="anchor-link" href="#GPU-check"> </a>
+</h3>
 </div>
 </div>
 </div>
@@ -301,8 +332,8 @@ window.onload = wrap_img;
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">num_gpus_available</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">experimental</span><span class="o">.</span><span class="n">list_physical_devices</span><span class="p">(</span><span class="s1">&#39;GPU&#39;</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Num GPUs Available: &quot;</span><span class="p">,</span> <span class="n">num_gpus_available</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">num_gpus_available</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">experimental</span><span class="o">.</span><span class="n">list_physical_devices</span><span class="p">(</span><span class="s1">'GPU'</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Num GPUs Available: "</span><span class="p">,</span> <span class="n">num_gpus_available</span><span class="p">)</span>
 <span class="k">assert</span> <span class="n">num_gpus_available</span> <span class="o">&gt;</span> <span class="mi">0</span>
 </pre></div>
 
@@ -335,10 +366,10 @@ window.onload = wrap_img;
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">config</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="s1">&#39;seed&#39;</span><span class="p">:</span> <span class="mi">31</span><span class="p">,</span>
-  <span class="s1">&#39;batch_size&#39;</span><span class="p">:</span> <span class="mi">64</span><span class="p">,</span>
-  <span class="s1">&#39;epochs&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
-  <span class="s1">&#39;max_seq_len&#39;</span><span class="p">:</span> <span class="mi">128</span>
+  <span class="s1">'seed'</span><span class="p">:</span> <span class="mi">31</span><span class="p">,</span>
+  <span class="s1">'batch_size'</span><span class="p">:</span> <span class="mi">64</span><span class="p">,</span>
+  <span class="s1">'epochs'</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+  <span class="s1">'max_seq_len'</span><span class="p">:</span> <span class="mi">128</span>
 <span class="p">}</span>
 </pre></div>
 
@@ -349,13 +380,17 @@ window.onload = wrap_img;
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Data">Data<a class="anchor-link" href="#Data"> </a></h2>
+<h2 id="Data">
+<a class="anchor" href="#Data" aria-hidden="true"><span class="octicon octicon-link"></span></a>Data<a class="anchor-link" href="#Data"> </a>
+</h2>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Download the pretrained BERT model</p>
 
@@ -369,13 +404,13 @@ window.onload = wrap_img;
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">BERT_URL</span> <span class="o">=</span> <span class="s2">&quot;https://tfhub.dev/tensorflow/bert_en_uncased_L-12_H-768_A-12/1&quot;</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">BERT_URL</span> <span class="o">=</span> <span class="s2">"https://tfhub.dev/tensorflow/bert_en_uncased_L-12_H-768_A-12/1"</span>
 <span class="n">bert_layer</span> <span class="o">=</span> <span class="n">hub</span><span class="o">.</span><span class="n">KerasLayer</span><span class="p">(</span><span class="n">BERT_URL</span><span class="p">,</span> <span class="n">trainable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
 <span class="n">vocab_file</span> <span class="o">=</span> <span class="n">bert_layer</span><span class="o">.</span><span class="n">resolved_object</span><span class="o">.</span><span class="n">vocab_file</span><span class="o">.</span><span class="n">asset_path</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
 <span class="n">do_lower_case</span> <span class="o">=</span> <span class="n">bert_layer</span><span class="o">.</span><span class="n">resolved_object</span><span class="o">.</span><span class="n">do_lower_case</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;BERT vocab is stored at     : </span><span class="si">{</span><span class="n">vocab_file</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;BERT model is case sensitive: </span><span class="si">{</span><span class="n">do_lower_case</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'BERT vocab is stored at     : </span><span class="si">{</span><span class="n">vocab_file</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'BERT model is case sensitive: </span><span class="si">{</span><span class="n">do_lower_case</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -388,7 +423,7 @@ window.onload = wrap_img;
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>BERT vocab is stored at     : b&#39;/tmp/tfhub_modules/03d6fb3ce1605ad9e5e9ed5346b2fb9623ef4d3d/assets/vocab.txt&#39;
+<pre>BERT vocab is stored at     : b'/tmp/tfhub_modules/03d6fb3ce1605ad9e5e9ed5346b2fb9623ef4d3d/assets/vocab.txt'
 BERT model is case sensitive: True
 </pre>
 </div>
@@ -400,7 +435,8 @@ BERT model is case sensitive: True
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Load the vocab file that corresponds to the pretrained BERT</p>
 
@@ -415,9 +451,9 @@ BERT model is case sensitive: True
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">load_vocab</span><span class="p">(</span><span class="n">vocab_file</span><span class="p">):</span>
-  <span class="sd">&quot;&quot;&quot;Load a vocabulary file into a list.&quot;&quot;&quot;</span>
+  <span class="sd">"""Load a vocabulary file into a list."""</span>
   <span class="n">vocab</span> <span class="o">=</span> <span class="p">[]</span>
-  <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">gfile</span><span class="o">.</span><span class="n">GFile</span><span class="p">(</span><span class="n">vocab_file</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">reader</span><span class="p">:</span>
+  <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">gfile</span><span class="o">.</span><span class="n">GFile</span><span class="p">(</span><span class="n">vocab_file</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">)</span> <span class="k">as</span> <span class="n">reader</span><span class="p">:</span>
     <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
       <span class="n">token</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
       <span class="k">if</span> <span class="ow">not</span> <span class="n">token</span><span class="p">:</span> <span class="k">break</span>
@@ -435,7 +471,8 @@ BERT model is case sensitive: True
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Use BERT vocab to create a word to index lookup table</p>
 
@@ -450,7 +487,7 @@ BERT model is case sensitive: True
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">create_vocab_table</span><span class="p">(</span><span class="n">vocab</span><span class="p">,</span> <span class="n">num_oov</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
-  <span class="sd">&quot;&quot;&quot;Create a lookup table for a vocabulary&quot;&quot;&quot;</span>
+  <span class="sd">"""Create a lookup table for a vocabulary"""</span>
   <span class="n">vocab_values</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">range</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="n">vocab</span><span class="p">,</span> <span class="n">out_type</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">int64</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
   <span class="n">init</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">lookup</span><span class="o">.</span><span class="n">KeyValueTensorInitializer</span><span class="p">(</span><span class="n">keys</span><span class="o">=</span><span class="n">vocab</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="n">vocab_values</span><span class="p">,</span> <span class="n">key_dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">string</span><span class="p">,</span> <span class="n">value_dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
   <span class="n">vocab_table</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">lookup</span><span class="o">.</span><span class="n">StaticVocabularyTable</span><span class="p">(</span><span class="n">init</span><span class="p">,</span> <span class="n">num_oov</span><span class="p">,</span> <span class="n">lookup_key_dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">string</span><span class="p">)</span>
@@ -466,7 +503,8 @@ BERT model is case sensitive: True
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Use BERT vocab to create a index to word lookup table</p>
 
@@ -484,7 +522,7 @@ BERT model is case sensitive: True
   <span class="c1"># Create a lookup table for a index to token</span>
   <span class="n">vocab_values</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">range</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="n">vocab</span><span class="p">,</span> <span class="n">out_type</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">int64</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
   <span class="n">init</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">lookup</span><span class="o">.</span><span class="n">KeyValueTensorInitializer</span><span class="p">(</span><span class="n">keys</span><span class="o">=</span><span class="n">vocab_values</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="n">vocab</span><span class="p">)</span>
-  <span class="k">return</span> <span class="n">tf</span><span class="o">.</span><span class="n">lookup</span><span class="o">.</span><span class="n">StaticHashTable</span><span class="p">(</span><span class="n">initializer</span><span class="o">=</span><span class="n">init</span><span class="p">,</span> <span class="n">default_value</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">(</span><span class="s1">&#39;unk&#39;</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;index2word&quot;</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">tf</span><span class="o">.</span><span class="n">lookup</span><span class="o">.</span><span class="n">StaticHashTable</span><span class="p">(</span><span class="n">initializer</span><span class="o">=</span><span class="n">init</span><span class="p">,</span> <span class="n">default_value</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">(</span><span class="s1">'unk'</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s2">"index2word"</span><span class="p">)</span>
 
 <span class="n">index2word</span> <span class="o">=</span> <span class="n">create_index2word</span><span class="p">(</span><span class="n">vocab</span><span class="p">)</span>
 </pre></div>
@@ -496,7 +534,8 @@ BERT model is case sensitive: True
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Check out the indices for the following tokens</p>
 
@@ -510,7 +549,7 @@ BERT model is case sensitive: True
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">vocab_lookup_table</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">([</span><span class="s1">&#39;[PAD]&#39;</span><span class="p">,</span> <span class="s1">&#39;[UNK]&#39;</span><span class="p">,</span> <span class="s1">&#39;[CLS]&#39;</span><span class="p">,</span> <span class="s1">&#39;[SEP]&#39;</span><span class="p">,</span> <span class="s1">&#39;[MASK]&#39;</span><span class="p">]))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">vocab_lookup_table</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">([</span><span class="s1">'[PAD]'</span><span class="p">,</span> <span class="s1">'[UNK]'</span><span class="p">,</span> <span class="s1">'[CLS]'</span><span class="p">,</span> <span class="s1">'[SEP]'</span><span class="p">,</span> <span class="s1">'[MASK]'</span><span class="p">]))</span>
 </pre></div>
 
     </div>
@@ -536,7 +575,8 @@ BERT model is case sensitive: True
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Check out the token corresponding to an index</p>
 
@@ -550,7 +590,7 @@ BERT model is case sensitive: True
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">index2word</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">([</span><span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;int64&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">index2word</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">([</span><span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">'int64'</span><span class="p">))</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -565,7 +605,7 @@ BERT model is case sensitive: True
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>[b&#39;[PAD]&#39;]</pre>
+<pre>[b'[PAD]']</pre>
 </div>
 
 </div>
@@ -576,7 +616,8 @@ BERT model is case sensitive: True
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Create a BERT tokenizer using TF Text</p>
 
@@ -604,7 +645,8 @@ BERT model is case sensitive: True
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Lookup for the BERT token IDs for padding and start/end of sentence.</p>
 
@@ -618,9 +660,9 @@ BERT model is case sensitive: True
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">PAD_ID</span> <span class="o">=</span> <span class="n">vocab_lookup_table</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">(</span><span class="s1">&#39;[PAD]&#39;</span><span class="p">))</span> <span class="c1"># padding token</span>
-<span class="n">CLS_ID</span> <span class="o">=</span> <span class="n">vocab_lookup_table</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">(</span><span class="s1">&#39;[CLS]&#39;</span><span class="p">))</span> <span class="c1"># class token</span>
-<span class="n">SEP_ID</span> <span class="o">=</span> <span class="n">vocab_lookup_table</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">(</span><span class="s1">&#39;[SEP]&#39;</span><span class="p">))</span> <span class="c1"># sequence separator token</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">PAD_ID</span> <span class="o">=</span> <span class="n">vocab_lookup_table</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">(</span><span class="s1">'[PAD]'</span><span class="p">))</span> <span class="c1"># padding token</span>
+<span class="n">CLS_ID</span> <span class="o">=</span> <span class="n">vocab_lookup_table</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">(</span><span class="s1">'[CLS]'</span><span class="p">))</span> <span class="c1"># class token</span>
+<span class="n">SEP_ID</span> <span class="o">=</span> <span class="n">vocab_lookup_table</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">(</span><span class="s1">'[SEP]'</span><span class="p">))</span> <span class="c1"># sequence separator token</span>
 </pre></div>
 
     </div>
@@ -630,13 +672,17 @@ BERT model is case sensitive: True
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Preprocessing">Preprocessing<a class="anchor-link" href="#Preprocessing"> </a></h3>
+<h3 id="Preprocessing">
+<a class="anchor" href="#Preprocessing" aria-hidden="true"><span class="octicon octicon-link"></span></a>Preprocessing<a class="anchor-link" href="#Preprocessing"> </a>
+</h3>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Define the logic to preprocess data and format it as required by BERT</p>
 
@@ -651,17 +697,17 @@ BERT model is case sensitive: True
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">preprocess</span><span class="p">(</span><span class="n">record</span><span class="p">):</span>
-  <span class="n">review</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="n">record</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">],</span> <span class="n">record</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span>
+  <span class="n">review</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="n">record</span><span class="p">[</span><span class="s1">'text'</span><span class="p">],</span> <span class="n">record</span><span class="p">[</span><span class="s1">'label'</span><span class="p">]</span>
   <span class="c1"># process review to calculate BERT input</span>
   <span class="n">ids</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="n">type_ids</span> <span class="o">=</span> <span class="n">preprocess_bert_input</span><span class="p">(</span><span class="n">review</span><span class="p">)</span>
   <span class="k">return</span> <span class="p">(</span><span class="n">ids</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="n">type_ids</span><span class="p">),</span> <span class="n">label</span>
 
 <span class="k">def</span> <span class="nf">preprocess_bert_input</span><span class="p">(</span><span class="n">review</span><span class="p">):</span>
   <span class="c1"># calculate tokens ID</span>
-  <span class="n">ids</span> <span class="o">=</span> <span class="n">tokenize_text</span><span class="p">(</span><span class="n">review</span><span class="p">,</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;max_seq_len&#39;</span><span class="p">])</span>
+  <span class="n">ids</span> <span class="o">=</span> <span class="n">tokenize_text</span><span class="p">(</span><span class="n">review</span><span class="p">,</span> <span class="n">config</span><span class="p">[</span><span class="s1">'max_seq_len'</span><span class="p">])</span>
   <span class="c1"># calculate mask</span>
   <span class="n">mask</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">ids</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
-  <span class="n">mask</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;max_seq_len&#39;</span><span class="p">]])</span>
+  <span class="n">mask</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">config</span><span class="p">[</span><span class="s1">'max_seq_len'</span><span class="p">]])</span>
   <span class="c1"># calculate tokens type ID</span>
   <span class="n">zeros_dims</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">mask</span><span class="p">))</span>
   <span class="n">type_ids</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">zeros_dims</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
@@ -698,13 +744,17 @@ BERT model is case sensitive: True
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Dataset">Dataset<a class="anchor-link" href="#Dataset"> </a></h3>
+<h3 id="Dataset">
+<a class="anchor" href="#Dataset" aria-hidden="true"><span class="octicon octicon-link"></span></a>Dataset<a class="anchor-link" href="#Dataset"> </a>
+</h3>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Download the dataset from TF Hub and process it</p>
 
@@ -718,10 +768,10 @@ BERT model is case sensitive: True
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">train_ds</span><span class="p">,</span> <span class="n">valid_ds</span> <span class="o">=</span> <span class="n">tfds</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;imdb_reviews&#39;</span><span class="p">,</span> <span class="n">split</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;train&#39;</span><span class="p">,</span> <span class="s1">&#39;test&#39;</span><span class="p">],</span> <span class="n">shuffle_files</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">train_ds</span><span class="p">,</span> <span class="n">valid_ds</span> <span class="o">=</span> <span class="n">tfds</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">'imdb_reviews'</span><span class="p">,</span> <span class="n">split</span><span class="o">=</span><span class="p">[</span><span class="s1">'train'</span><span class="p">,</span> <span class="s1">'test'</span><span class="p">],</span> <span class="n">shuffle_files</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-<span class="n">train_ds</span> <span class="o">=</span> <span class="n">train_ds</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span><span class="o">.</span><span class="n">batch</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;batch_size&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">prefetch</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">experimental</span><span class="o">.</span><span class="n">AUTOTUNE</span><span class="p">)</span>
-<span class="n">valid_ds</span> <span class="o">=</span> <span class="n">valid_ds</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span><span class="o">.</span><span class="n">batch</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;batch_size&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">prefetch</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">experimental</span><span class="o">.</span><span class="n">AUTOTUNE</span><span class="p">)</span>
+<span class="n">train_ds</span> <span class="o">=</span> <span class="n">train_ds</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span><span class="o">.</span><span class="n">batch</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">'batch_size'</span><span class="p">])</span><span class="o">.</span><span class="n">prefetch</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">experimental</span><span class="o">.</span><span class="n">AUTOTUNE</span><span class="p">)</span>
+<span class="n">valid_ds</span> <span class="o">=</span> <span class="n">valid_ds</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span><span class="o">.</span><span class="n">batch</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">'batch_size'</span><span class="p">])</span><span class="o">.</span><span class="n">prefetch</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">experimental</span><span class="o">.</span><span class="n">AUTOTUNE</span><span class="p">)</span>
 
 <span class="n">train_ds</span><span class="p">,</span> <span class="n">valid_ds</span> <span class="o">=</span> <span class="n">train_ds</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">preprocess</span><span class="p">),</span> <span class="n">valid_ds</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">preprocess</span><span class="p">)</span>
 </pre></div>
@@ -733,9 +783,12 @@ BERT model is case sensitive: True
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Model">Model<a class="anchor-link" href="#Model"> </a></h2>
+<h2 id="Model">
+<a class="anchor" href="#Model" aria-hidden="true"><span class="octicon octicon-link"></span></a>Model<a class="anchor-link" href="#Model"> </a>
+</h2>
 </div>
 </div>
 </div>
@@ -746,16 +799,16 @@ BERT model is case sensitive: True
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">input_ids</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;max_seq_len&#39;</span><span class="p">],),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">int32</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;input_ids&quot;</span><span class="p">)</span>
-<span class="n">input_mask</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;max_seq_len&#39;</span><span class="p">],),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">int32</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;input_mask&quot;</span><span class="p">)</span>
-<span class="n">input_type_ids</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;max_seq_len&#39;</span><span class="p">],),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">int32</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;input_type_ids&quot;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">input_ids</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">'max_seq_len'</span><span class="p">],),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">int32</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"input_ids"</span><span class="p">)</span>
+<span class="n">input_mask</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">'max_seq_len'</span><span class="p">],),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">int32</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"input_mask"</span><span class="p">)</span>
+<span class="n">input_type_ids</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">'max_seq_len'</span><span class="p">],),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">int32</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"input_type_ids"</span><span class="p">)</span>
 
 <span class="n">pooled_output</span><span class="p">,</span> <span class="n">sequence_output</span> <span class="o">=</span> <span class="n">bert_layer</span><span class="p">([</span><span class="n">input_ids</span><span class="p">,</span> <span class="n">input_mask</span><span class="p">,</span> <span class="n">input_type_ids</span><span class="p">])</span>
-<span class="n">drop_out</span> <span class="o">=</span> <span class="n">Dropout</span><span class="p">(</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;dropout&quot;</span><span class="p">)(</span><span class="n">pooled_output</span><span class="p">)</span>
-<span class="n">output</span> <span class="o">=</span> <span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;sigmoid&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">)(</span><span class="n">drop_out</span><span class="p">)</span>
+<span class="n">drop_out</span> <span class="o">=</span> <span class="n">Dropout</span><span class="p">(</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"dropout"</span><span class="p">)(</span><span class="n">pooled_output</span><span class="p">)</span>
+<span class="n">output</span> <span class="o">=</span> <span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">'sigmoid'</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"linear"</span><span class="p">)(</span><span class="n">drop_out</span><span class="p">)</span>
 
 <span class="n">model</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="n">input_ids</span><span class="p">,</span> <span class="n">input_mask</span><span class="p">,</span> <span class="n">input_type_ids</span><span class="p">],</span> <span class="n">outputs</span><span class="o">=</span><span class="n">output</span><span class="p">)</span>
-<span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="s2">&quot;adam&quot;</span><span class="p">,</span> <span class="n">loss</span><span class="o">=</span><span class="s2">&quot;binary_crossentropy&quot;</span><span class="p">,</span> <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;accuracy&quot;</span><span class="p">])</span>
+<span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="s2">"adam"</span><span class="p">,</span> <span class="n">loss</span><span class="o">=</span><span class="s2">"binary_crossentropy"</span><span class="p">,</span> <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s2">"accuracy"</span><span class="p">])</span>
 </pre></div>
 
     </div>
@@ -785,7 +838,7 @@ BERT model is case sensitive: True
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Model: &#34;model_1&#34;
+<pre>Model: "model_1"
 __________________________________________________________________________________________________
 Layer (type)                    Output Shape         Param #     Connected to                     
 ==================================================================================================
@@ -817,9 +870,12 @@ ________________________________________________________________________________
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Training">Training<a class="anchor-link" href="#Training"> </a></h3>
+<h3 id="Training">
+<a class="anchor" href="#Training" aria-hidden="true"><span class="octicon octicon-link"></span></a>Training<a class="anchor-link" href="#Training"> </a>
+</h3>
 </div>
 </div>
 </div>
@@ -830,7 +886,7 @@ ________________________________________________________________________________
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_ds</span><span class="p">,</span> <span class="n">validation_data</span><span class="o">=</span><span class="n">valid_ds</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;epochs&#39;</span><span class="p">])</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_ds</span><span class="p">,</span> <span class="n">validation_data</span><span class="o">=</span><span class="n">valid_ds</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="s1">'epochs'</span><span class="p">])</span>
 </pre></div>
 
     </div>
@@ -883,9 +939,12 @@ Epoch 10/10
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Evaluation">Evaluation<a class="anchor-link" href="#Evaluation"> </a></h3>
+<h3 id="Evaluation">
+<a class="anchor" href="#Evaluation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Evaluation<a class="anchor-link" href="#Evaluation"> </a>
+</h3>
 </div>
 </div>
 </div>
@@ -896,8 +955,8 @@ Epoch 10/10
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_text_ds</span> <span class="o">=</span> <span class="n">tfds</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;imdb_reviews&#39;</span><span class="p">,</span> <span class="n">split</span><span class="o">=</span><span class="s1">&#39;unsupervised&#39;</span><span class="p">,</span> <span class="n">shuffle_files</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">test_ds</span> <span class="o">=</span> <span class="n">test_text_ds</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span><span class="o">.</span><span class="n">batch</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;batch_size&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">prefetch</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">experimental</span><span class="o">.</span><span class="n">AUTOTUNE</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_text_ds</span> <span class="o">=</span> <span class="n">tfds</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">'imdb_reviews'</span><span class="p">,</span> <span class="n">split</span><span class="o">=</span><span class="s1">'unsupervised'</span><span class="p">,</span> <span class="n">shuffle_files</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">test_ds</span> <span class="o">=</span> <span class="n">test_text_ds</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span><span class="o">.</span><span class="n">batch</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">'batch_size'</span><span class="p">])</span><span class="o">.</span><span class="n">prefetch</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">experimental</span><span class="o">.</span><span class="n">AUTOTUNE</span><span class="p">)</span>
 <span class="n">test_ds</span> <span class="o">=</span> <span class="n">test_ds</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">preprocess</span><span class="p">)</span>
 </pre></div>
 
@@ -908,7 +967,8 @@ Epoch 10/10
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Check how test text is tokenized</p>
 
@@ -922,7 +982,7 @@ Epoch 10/10
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_text</span> <span class="o">=</span> <span class="p">[</span><span class="n">record</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span> <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="n">test_text_ds</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="mi">10</span><span class="p">)]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_text</span> <span class="o">=</span> <span class="p">[</span><span class="n">record</span><span class="p">[</span><span class="s1">'text'</span><span class="p">]</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span> <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="n">test_text_ds</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="mi">10</span><span class="p">)]</span>
 </pre></div>
 
     </div>
@@ -939,7 +999,7 @@ Epoch 10/10
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ids</span> <span class="o">=</span> <span class="n">tokenize_text</span><span class="p">(</span><span class="n">test_text</span><span class="p">,</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;max_seq_len&#39;</span><span class="p">])</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ids</span> <span class="o">=</span> <span class="n">tokenize_text</span><span class="p">(</span><span class="n">test_text</span><span class="p">,</span> <span class="n">config</span><span class="p">[</span><span class="s1">'max_seq_len'</span><span class="p">])</span>
 </pre></div>
 
     </div>
@@ -956,7 +1016,7 @@ Epoch 10/10
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">tokens</span> <span class="o">=</span> <span class="p">[</span><span class="sa">b</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tokens_array</span><span class="p">)</span> <span class="k">for</span> <span class="n">tokens_array</span> <span class="ow">in</span> <span class="n">index2word</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="n">ids</span><span class="p">)</span><span class="o">.</span><span class="n">numpy</span><span class="p">()]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">tokens</span> <span class="o">=</span> <span class="p">[</span><span class="sa">b</span><span class="s1">' '</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tokens_array</span><span class="p">)</span> <span class="k">for</span> <span class="n">tokens_array</span> <span class="ow">in</span> <span class="n">index2word</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="n">ids</span><span class="p">)</span><span class="o">.</span><span class="n">numpy</span><span class="p">()]</span>
 </pre></div>
 
     </div>
@@ -973,7 +1033,7 @@ Epoch 10/10
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;tokens&#39;</span><span class="p">:</span> <span class="n">tokens</span><span class="p">})</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">'tokens'</span><span class="p">:</span> <span class="n">tokens</span><span class="p">})</span>
 </pre></div>
 
     </div>
@@ -1062,7 +1122,8 @@ Epoch 10/10
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Run prediction on test reviews</p>
 
@@ -1126,7 +1187,7 @@ Epoch 10/10
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">result_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="n">tf</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">result</span><span class="p">[:</span><span class="mi">10</span><span class="p">])</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="s1">&#39;text&#39;</span><span class="p">:</span> <span class="n">test_text</span><span class="p">})</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">result_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">'label'</span><span class="p">:</span> <span class="n">tf</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">result</span><span class="p">[:</span><span class="mi">10</span><span class="p">])</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="s1">'text'</span><span class="p">:</span> <span class="n">test_text</span><span class="p">})</span>
 <span class="n">result_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
@@ -1206,7 +1267,15 @@ Epoch 10/10
 
 
 
-  </div><a class="u-url" href="/notebooks/2020/03/15/Text_classification_with_BERT_and_TF_Text.html" hidden></a>
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="dzlab/notebooks"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/notebooks/tensorflow/nlp/2020/03/15/Text_classification_with_BERT_and_TF_Text.html" hidden></a>
 </article>
       </div>
     </main><footer class="site-footer h-card">
