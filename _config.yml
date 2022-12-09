@@ -39,8 +39,8 @@ baseurl: "/notebooks" # the subpath of your site, e.g. "/blog".
 # Github and twitter are optional:
 minima:
   social_links:
-    twitter: bachiirc
-    github: dzlab
+    - { platform: github,  user_url: "https://github.com/dzlab" }
+    - { platform: twitter, user_url: "https://twitter.com/bachiirc" }
 
 # Set this to true to get LaTeX math equation support
 use_math: true
