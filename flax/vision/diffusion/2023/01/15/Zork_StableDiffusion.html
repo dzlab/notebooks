@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Text adventure game with Stable Diffusion | notebooks</title>
+<meta name="generator" content="Jekyll v4.0.1" />
+<meta property="og:title" content="Text adventure game with Stable Diffusion" />
+<meta name="author" content="dzlab" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Learn how to use Stable Diffusion in Flax and Gradio to bring to life a text-based adventure game like Zork" />
+<meta property="og:description" content="Learn how to use Stable Diffusion in Flax and Gradio to bring to life a text-based adventure game like Zork" />
+<link rel="canonical" href="https://dzlab.github.io/notebooks/flax/vision/diffusion/2023/01/15/Zork_StableDiffusion.html" />
+<meta property="og:url" content="https://dzlab.github.io/notebooks/flax/vision/diffusion/2023/01/15/Zork_StableDiffusion.html" />
+<meta property="og:site_name" content="notebooks" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2023-01-15T00:00:00-06:00" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"dzlab"},"description":"Learn how to use Stable Diffusion in Flax and Gradio to bring to life a text-based adventure game like Zork","@type":"BlogPosting","headline":"Text adventure game with Stable Diffusion","dateModified":"2023-01-15T00:00:00-06:00","url":"https://dzlab.github.io/notebooks/flax/vision/diffusion/2023/01/15/Zork_StableDiffusion.html","datePublished":"2023-01-15T00:00:00-06:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://dzlab.github.io/notebooks/flax/vision/diffusion/2023/01/15/Zork_StableDiffusion.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/notebooks/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://dzlab.github.io/notebooks/feed.xml" title="notebooks" /><!-- the google_analytics_id gets auto inserted from the config file -->
+<meta name="google-site-verification" content="ilXYLP9WtWkhHuj_2OxaJFMS2IP4Pdey8JFu_FlAWaQ" />
+
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-128961990-1','auto');ga('require','displayfeatures');ga('send','pageview');</script>
+
+<link rel="shortcut icon" type="image/x-icon" href="/notebooks/images/favicon.ico"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Text adventure game with Stable Diffusion | notebooks</title>
+<meta name="generator" content="Jekyll v4.0.1" />
+<meta property="og:title" content="Text adventure game with Stable Diffusion" />
+<meta name="author" content="dzlab" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Learn how to use Stable Diffusion in Flax and Gradio to bring to life a text-based adventure game like Zork" />
+<meta property="og:description" content="Learn how to use Stable Diffusion in Flax and Gradio to bring to life a text-based adventure game like Zork" />
+<link rel="canonical" href="https://dzlab.github.io/notebooks/flax/vision/diffusion/2023/01/15/Zork_StableDiffusion.html" />
+<meta property="og:url" content="https://dzlab.github.io/notebooks/flax/vision/diffusion/2023/01/15/Zork_StableDiffusion.html" />
+<meta property="og:site_name" content="notebooks" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2023-01-15T00:00:00-06:00" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"dzlab"},"description":"Learn how to use Stable Diffusion in Flax and Gradio to bring to life a text-based adventure game like Zork","@type":"BlogPosting","headline":"Text adventure game with Stable Diffusion","dateModified":"2023-01-15T00:00:00-06:00","url":"https://dzlab.github.io/notebooks/flax/vision/diffusion/2023/01/15/Zork_StableDiffusion.html","datePublished":"2023-01-15T00:00:00-06:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://dzlab.github.io/notebooks/flax/vision/diffusion/2023/01/15/Zork_StableDiffusion.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+<link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" />
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css"><link type="application/atom+xml" rel="alternate" href="https://dzlab.github.io/notebooks/feed.xml" title="notebooks" /><!-- the google_analytics_id gets auto inserted from the config file -->
+<meta name="google-site-verification" content="ilXYLP9WtWkhHuj_2OxaJFMS2IP4Pdey8JFu_FlAWaQ" />
+
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-128961990-1','auto');ga('require','displayfeatures');ga('send','pageview');</script>
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+    <script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"> </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head><body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/notebooks/">notebooks</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/notebooks/about/">About Me</a><a class="page-link" href="/notebooks/search/">Search</a><a class="page-link" href="/notebooks/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Text adventure game with Stable Diffusion</h1><p class="page-description">Learn how to use Stable Diffusion in Flax and Gradio to bring to life a text-based adventure game like Zork</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2023-01-15T00:00:00-06:00" itemprop="datePublished">
+        Jan 15, 2023
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">dzlab</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      6 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/notebooks/categories/#flax">flax</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/notebooks/categories/#vision">vision</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/notebooks/categories/#diffusion">diffusion</a>
+        
+      
+      </p>
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-wrap flex-justify-end">
+          <div class="px-2">
+
+    <a href="https://github.com/dzlab/notebooks/tree/master/_notebooks/2023-01-15-Zork_StableDiffusion.ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/notebooks/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/dzlab/notebooks/master?filepath=_notebooks%2F2023-01-15-Zork_StableDiffusion.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/notebooks/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/dzlab/notebooks/blob/master/_notebooks/2023-01-15-Zork_StableDiffusion.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/notebooks/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2023-01-15-Zork_StableDiffusion.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a href="https://en.wikipedia.org/wiki/Text-based_game">Text adventures</a> are text-based games wherein worlds are described in the narrative and the player submits instructions to interact with the worlds. Text-based adventure games were very popular in the 1970s and 1980s. In this article, we will bring to life one of popular games called Zork. We will use Stable Diffusion to generate images corresponding to the scenes descriptions, and <a href="https://gradio.app/">Gradio</a> to interact with the user.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="https://upload.wikimedia.org/wikipedia/en/a/ac/Zork_I_box_art.jpg" alt="zork" />
+<em>Zork a text-based adventure game (source <a href="https://en.wikipedia.org/wiki/Zork">wikipedia</a>)</em></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Setup">Setup<a class="anchor-link" href="#Setup"> </a></h2><p>First, let's install dependencies and import needed modules.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%capture</span>
+<span class="o">%%</span><span class="n">bash</span>
+
+<span class="n">pip</span> <span class="n">install</span> <span class="n">gradio</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="o">--</span><span class="n">upgrade</span> <span class="n">diffusers</span> <span class="n">transformers</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="o">--</span><span class="n">upgrade</span> <span class="n">flax</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">gradio</span> <span class="k">as</span> <span class="nn">gr</span>
+<span class="kn">import</span> <span class="nn">jax</span>
+<span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">jnp</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">flax.jax_utils</span> <span class="kn">import</span> <span class="n">replicate</span>
+<span class="kn">from</span> <span class="nn">flax.training.common_utils</span> <span class="kn">import</span> <span class="n">shard</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Stable-Diffusion">Stable Diffusion<a class="anchor-link" href="#Stable-Diffusion"> </a></h2><p>Second, let's initiate a Flax Stable Diffusion pipeline and download the model weights.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%capture</span>
+<span class="kn">from</span> <span class="nn">diffusers</span> <span class="kn">import</span> <span class="n">FlaxStableDiffusionPipeline</span>
+
+<span class="n">pipeline</span><span class="p">,</span> <span class="n">pipeline_params</span> <span class="o">=</span> <span class="n">FlaxStableDiffusionPipeline</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span>
+    <span class="s2">&quot;stabilityai/stable-diffusion-2-1&quot;</span><span class="p">,</span> <span class="n">revision</span><span class="o">=</span><span class="s2">&quot;bf16&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">jax</span><span class="o">.</span><span class="n">numpy</span><span class="o">.</span><span class="n">bfloat16</span>
+<span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><div class="flash">
+    <svg class="octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M6.3 5.69a.942.942 0 01-.28-.7c0-.28.09-.52.28-.7.19-.18.42-.28.7-.28.28 0 .52.09.7.28.18.19.28.42.28.7 0 .28-.09.52-.28.7a1 1 0 01-.7.3c-.28 0-.52-.11-.7-.3zM8 7.99c-.02-.25-.11-.48-.31-.69-.2-.19-.42-.3-.69-.31H6c-.27.02-.48.13-.69.31-.2.2-.3.44-.31.69h1v3c.02.27.11.5.31.69.2.2.42.31.69.31h1c.27 0 .48-.11.69-.31.2-.19.3-.42.31-.69H8V7.98v.01zM7 2.3c-3.14 0-5.7 2.54-5.7 5.68 0 3.14 2.56 5.7 5.7 5.7s5.7-2.55 5.7-5.7c0-3.15-2.56-5.69-5.7-5.69v.01zM7 .98c3.86 0 7 3.14 7 7s-3.14 7-7 7-7-3.12-7-7 3.14-7 7-7z"></path></svg>
+    <strong>Note: </strong>to learn more about how to use Stable Diffusion in Flax check this tutorial - <a href="https://dzlab.github.io/notebooks/flax/vision/diffusion/2022/12/09/Stable_Diffusion_in_Flax_TPU.html">link</a>.
+</div></p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">num_samples</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">device_count</span><span class="p">()</span>
+<span class="n">prng_seed</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">prng_seed</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">prng_seed</span><span class="p">,</span> <span class="n">num_samples</span><span class="p">)</span>
+<span class="n">num_inference_steps</span> <span class="o">=</span> <span class="mi">50</span>
+
+<span class="n">params</span> <span class="o">=</span> <span class="n">replicate</span><span class="p">(</span><span class="n">pipeline_params</span><span class="p">)</span>
+
+<span class="n">vae</span><span class="p">,</span> <span class="n">vae_params</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">vae</span><span class="p">,</span> <span class="n">pipeline_params</span><span class="p">[</span><span class="s1">&#39;vae&#39;</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">prepare_inputs</span><span class="p">(</span><span class="n">prompt</span><span class="p">,</span> <span class="n">num_samples</span><span class="p">):</span>
+    <span class="n">prompt</span> <span class="o">=</span> <span class="n">num_samples</span> <span class="o">*</span> <span class="p">[</span><span class="n">prompt</span><span class="p">]</span>
+    <span class="n">prompt_ids</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">prepare_inputs</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
+    <span class="n">prompt_ids</span> <span class="o">=</span> <span class="n">shard</span><span class="p">(</span><span class="n">prompt_ids</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">prompt_ids</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">pil_to_latents</span><span class="p">(</span><span class="n">pil_image</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">768</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">768</span><span class="p">):</span>
+    <span class="c1"># Single image -&gt; single latent in a batch (so size 1, 4, 64, 64)</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">pil_image</span><span class="p">)</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="p">(</span><span class="n">height</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="s2">&quot;bicubic&quot;</span><span class="p">)</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="p">(</span><span class="n">image</span> <span class="o">/</span> <span class="mf">127.5</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+    <span class="n">input_im</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">input_im</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">input_im</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="c1"># encode the image</span>
+    <span class="n">latents</span> <span class="o">=</span> <span class="n">vae</span><span class="o">.</span><span class="n">apply</span><span class="p">({</span><span class="s2">&quot;params&quot;</span><span class="p">:</span> <span class="n">vae_params</span><span class="p">},</span> <span class="n">input_im</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="n">vae</span><span class="o">.</span><span class="n">encode</span><span class="p">)</span>
+    <span class="k">return</span> <span class="mf">0.18215</span> <span class="o">*</span> <span class="n">latents</span><span class="o">.</span><span class="n">latent_dist</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">prng_seed</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">generate</span><span class="p">(</span><span class="n">prompt</span><span class="p">,</span> <span class="n">pil_image</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">target_height</span><span class="o">=</span><span class="mi">768</span><span class="p">,</span> <span class="n">target_width</span><span class="o">=</span><span class="mi">768</span><span class="p">):</span>
+    <span class="n">prompt_ids</span> <span class="o">=</span> <span class="n">prepare_inputs</span><span class="p">(</span><span class="n">prompt</span><span class="p">,</span> <span class="n">num_samples</span><span class="p">)</span>
+    <span class="n">neg_prompt_ids</span> <span class="o">=</span> <span class="n">prepare_inputs</span><span class="p">(</span><span class="s1">&#39;ugly, low quality&#39;</span><span class="p">,</span> <span class="n">num_samples</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">pil_image</span><span class="p">:</span>
+        <span class="n">latents</span> <span class="o">=</span> <span class="n">pil_to_latents</span><span class="p">(</span><span class="n">pil_image</span><span class="p">,</span> <span class="n">target_height</span><span class="p">,</span> <span class="n">target_width</span><span class="p">)</span>
+        <span class="n">latents</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">latents</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+        <span class="n">latents</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">latents</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">latents</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">(</span><span class="n">prompt_ids</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">prng_seed</span><span class="p">,</span> <span class="n">num_inference_steps</span><span class="p">,</span>
+                      <span class="n">neg_prompt_ids</span><span class="o">=</span><span class="n">neg_prompt_ids</span><span class="p">,</span>
+                      <span class="n">height</span> <span class="o">=</span> <span class="n">target_height</span><span class="p">,</span> <span class="n">width</span> <span class="o">=</span> <span class="n">target_width</span><span class="p">,</span>
+                      <span class="n">latents</span><span class="o">=</span><span class="n">latents</span><span class="p">,</span> <span class="n">jit</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">images</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">images</span>
+    <span class="n">images</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">images</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">num_samples</span><span class="p">,)</span> <span class="o">+</span> <span class="n">images</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">:]))</span>
+    <span class="n">images</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">numpy_to_pil</span><span class="p">(</span><span class="n">images</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">images</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Text-based-adventure-game">Text-based adventure game<a class="anchor-link" href="#Text-based-adventure-game"> </a></h2><p><a href="https://github.com/iamjawa/zork-py">https://github.com/iamjawa/zork-py</a></p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Zork</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">loop</span> <span class="o">=</span> <span class="mi">4</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">end</span> <span class="o">=</span> <span class="kc">False</span>
+    
+    <span class="k">def</span> <span class="nf">welcome</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Welcome to Zork - The Unofficial Python Version.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_First_Input_Loop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">second</span><span class="p">):</span>
+        <span class="n">loop</span><span class="p">,</span> <span class="n">message</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loop</span><span class="p">,</span> <span class="s1">&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">second</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="p">(</span><span class="s2">&quot;take mailbox&quot;</span><span class="p">):</span>
+            <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;It is securely anchored.&quot;</span>
+        <span class="k">elif</span> <span class="n">second</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="p">(</span><span class="s2">&quot;open mailbox&quot;</span><span class="p">):</span>
+            <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;Opening the small mailbox reveals a leaflet.&quot;</span>
+        <span class="k">elif</span> <span class="n">second</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="p">(</span><span class="s2">&quot;go east&quot;</span><span class="p">):</span>
+            <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;The door is boarded and you cannot remove the boards.&quot;</span>
+        <span class="k">elif</span> <span class="n">second</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="p">(</span><span class="s2">&quot;open door&quot;</span><span class="p">):</span>
+            <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;The door cannot be opened.&quot;</span>
+        <span class="k">elif</span> <span class="n">second</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="p">(</span><span class="s2">&quot;take boards&quot;</span><span class="p">):</span>
+            <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;The boards are securely fastened.&quot;</span>
+        <span class="k">elif</span> <span class="n">second</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="p">(</span><span class="s2">&quot;look at house&quot;</span><span class="p">):</span>
+            <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;The house is a beautiful colonial house which is painted white. It is clear that the owners must have been extremely wealthy.&quot;</span>
+        <span class="k">elif</span> <span class="n">second</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="p">(</span><span class="s2">&quot;go southwest&quot;</span><span class="p">):</span>
+            <span class="n">loop</span> <span class="o">=</span> <span class="mi">8</span>
+        <span class="k">elif</span> <span class="n">second</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="p">(</span><span class="s2">&quot;read leaflet&quot;</span><span class="p">):</span>
+            <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;Welcome to the Unofficial Python Version of Zork. Your mission is to find a Jade Statue.&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">return</span> <span class="n">loop</span><span class="p">,</span> <span class="n">message</span>
+
+    <span class="k">def</span> <span class="nf">_Southwest_Loop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">forest_inp</span><span class="p">):</span>
+        <span class="n">loop</span><span class="p">,</span> <span class="n">message</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loop</span><span class="p">,</span> <span class="s1">&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">forest_inp</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="p">(</span><span class="s2">&quot;go west&quot;</span><span class="p">):</span>
+            <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;You would need a machete to go further west.&quot;</span>
+        <span class="k">elif</span> <span class="n">forest_inp</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="p">(</span><span class="s2">&quot;go north&quot;</span><span class="p">):</span>
+            <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;The forest becomes impenetrable to the North.&quot;</span>
+        <span class="k">elif</span> <span class="n">forest_inp</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="p">(</span><span class="s2">&quot;go south&quot;</span><span class="p">):</span>
+            <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;Storm-tossed trees block your way.&quot;</span>
+        <span class="k">elif</span> <span class="n">forest_inp</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="p">(</span><span class="s2">&quot;go east&quot;</span><span class="p">):</span>
+            <span class="n">loop</span> <span class="o">=</span> <span class="mi">9</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">return</span> <span class="n">loop</span><span class="p">,</span> <span class="n">message</span>
+
+    <span class="k">def</span> <span class="nf">_East_Loop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">grating_inp</span><span class="p">):</span>
+        <span class="n">loop</span><span class="p">,</span> <span class="n">message</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loop</span><span class="p">,</span> <span class="s1">&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">grating_inp</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="p">(</span><span class="s2">&quot;go south&quot;</span><span class="p">):</span>
+            <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;You see a large ogre and turn around.&quot;</span>
+        <span class="k">elif</span> <span class="n">grating_inp</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="p">(</span><span class="s2">&quot;descend grating&quot;</span><span class="p">):</span>
+            <span class="n">loop</span> <span class="o">=</span> <span class="mi">10</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">return</span> <span class="n">loop</span><span class="p">,</span> <span class="n">message</span>
+
+    <span class="k">def</span> <span class="nf">_Grating_Loop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cave_inp</span><span class="p">):</span>
+        <span class="n">loop</span><span class="p">,</span> <span class="n">message</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loop</span><span class="p">,</span> <span class="s1">&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">cave_inp</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="p">(</span><span class="s2">&quot;descend staircase&quot;</span><span class="p">):</span>
+            <span class="n">loop</span> <span class="o">=</span> <span class="mi">11</span>
+        <span class="k">elif</span> <span class="n">cave_inp</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="p">(</span><span class="s2">&quot;take skeleton&quot;</span><span class="p">):</span>
+            <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;Why would you do that? Are you some sort of sicko?&quot;</span>
+        <span class="k">elif</span> <span class="n">cave_inp</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="p">(</span><span class="s2">&quot;smash skeleton&quot;</span><span class="p">):</span>
+            <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;Sick person. Have some respect mate.&quot;</span>
+        <span class="k">elif</span> <span class="n">cave_inp</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="p">(</span><span class="s2">&quot;light up room&quot;</span><span class="p">):</span>
+            <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;You would need a torch or lamp to do that.&quot;</span>
+        <span class="k">elif</span> <span class="n">cave_inp</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="p">(</span><span class="s2">&quot;break skeleton&quot;</span><span class="p">):</span>
+            <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;I have two questions: Why and With What?&quot;</span>
+        <span class="k">elif</span> <span class="n">cave_inp</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="p">(</span><span class="s2">&quot;go down staircase&quot;</span><span class="p">):</span>
+            <span class="n">loop</span> <span class="o">=</span> <span class="mi">11</span>
+        <span class="k">elif</span> <span class="n">cave_inp</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="p">(</span><span class="s2">&quot;scale staircase&quot;</span><span class="p">):</span>
+            <span class="n">loop</span> <span class="o">=</span> <span class="mi">11</span>
+        <span class="k">elif</span> <span class="n">cave_inp</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="p">(</span><span class="s2">&quot;suicide&quot;</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;---------------------------------------------------------&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;You throw yourself down the staircase as an attempt at suicide. You die.&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;---------------------------------------------------------&quot;</span><span class="p">)</span>
+            <span class="n">suicide_inp</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Do you want to continue? Y/N &quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">suicide_inp</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="p">(</span><span class="s2">&quot;n&quot;</span><span class="p">):</span>
+                <span class="n">exit</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">suicide_inp</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">):</span>
+                <span class="n">loop</span> <span class="o">=</span> <span class="mi">4</span>
+        <span class="k">elif</span> <span class="n">cave_inp</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="p">(</span><span class="s2">&quot;scale staircase&quot;</span><span class="p">):</span>
+            <span class="n">loop</span> <span class="o">=</span> <span class="mi">11</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">return</span> <span class="n">loop</span><span class="p">,</span> <span class="n">message</span>
+
+    <span class="k">def</span> <span class="nf">_End_of_game</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">last_inp</span><span class="p">):</span>
+        <span class="n">loop</span><span class="p">,</span> <span class="n">message</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loop</span><span class="p">,</span> <span class="s1">&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">last_inp</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="p">(</span><span class="s2">&quot;open trunk&quot;</span><span class="p">):</span>
+            <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;You have found the Jade Statue and have completed your quest!&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">return</span> <span class="n">loop</span><span class="p">,</span> <span class="n">message</span>
+
+    <span class="k">def</span> <span class="nf">play</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instruction</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">loop</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">prompt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loop</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">end</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="n">instruction</span><span class="p">:</span>
+            <span class="n">prompt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_prompt</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">loop</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
+            <span class="n">loop</span><span class="p">,</span> <span class="n">message</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_First_Input_Loop</span><span class="p">(</span><span class="n">instruction</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">loop</span> <span class="o">==</span> <span class="mi">8</span><span class="p">:</span>
+            <span class="n">loop</span><span class="p">,</span> <span class="n">message</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_Southwest_Loop</span><span class="p">(</span><span class="n">instruction</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">loop</span> <span class="o">==</span> <span class="mi">9</span><span class="p">:</span>
+            <span class="n">loop</span><span class="p">,</span> <span class="n">message</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_East_Loop</span><span class="p">(</span><span class="n">instruction</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">loop</span> <span class="o">==</span> <span class="mi">10</span><span class="p">:</span>
+            <span class="n">loop</span><span class="p">,</span> <span class="n">message</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_Grating_Loop</span><span class="p">(</span><span class="n">instruction</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">loop</span> <span class="o">==</span> <span class="mi">11</span><span class="p">:</span>
+            <span class="n">loop</span><span class="p">,</span> <span class="n">message</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_End_of_game</span><span class="p">(</span><span class="n">instruction</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">loop</span> <span class="o">==</span> <span class="n">loop</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">loop</span> <span class="o">=</span> <span class="n">loop</span>
+            <span class="n">prompt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_prompt</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">message</span><span class="p">,</span> <span class="n">prompt</span>
+
+    <span class="k">def</span> <span class="nf">_prompt</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">loop</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;You are standing in an open field west of a white house, with a boarded front door.&quot;</span><span class="p">)</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;(A secret path leads southwest into the forest.)&quot;</span><span class="p">)</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;There is a Small Mailbox.&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">loop</span> <span class="o">==</span> <span class="mi">8</span><span class="p">:</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;This is a forest, with trees in all directions. To the east, there appears to be sunlight.&quot;</span><span class="p">)</span>
+			
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">loop</span> <span class="o">==</span> <span class="mi">9</span><span class="p">:</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;You are in a clearing, with a forest surrounding you on all sides. A path leads south.&quot;</span><span class="p">)</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;There is an open grating, descending into darkness.&quot;</span><span class="p">)</span>
+			
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">loop</span> <span class="o">==</span> <span class="mi">10</span><span class="p">:</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;You are in a tiny cave with a dark, forbidding staircase leading down.&quot;</span><span class="p">)</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;There is a skeleton of a human male in one corner.&quot;</span><span class="p">)</span>
+			
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">loop</span> <span class="o">==</span> <span class="mi">11</span><span class="p">:</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;You have entered a mud-floored room.&quot;</span><span class="p">)</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Lying half buried in the mud is an old trunk, bulging with jewels.&quot;</span><span class="p">)</span>
+			
+        <span class="k">return</span> <span class="n">lines</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Zork-meets-Stable-Diffusion">Zork meets Stable Diffusion<a class="anchor-link" href="#Zork-meets-Stable-Diffusion"> </a></h2>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">separator</span> <span class="o">=</span> <span class="s2">&quot;---------------------------------------------------------&quot;</span>
+<span class="n">game</span> <span class="o">=</span> <span class="n">Zork</span><span class="p">()</span>
+<span class="n">message</span><span class="p">,</span> <span class="n">prompt</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">play</span><span class="p">()</span>
+<span class="n">history</span> <span class="o">=</span> <span class="p">[</span><span class="n">game</span><span class="o">.</span><span class="n">welcome</span><span class="p">(),</span> <span class="n">separator</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">prompt</span>
+<span class="n">images</span> <span class="o">=</span> <span class="n">generate</span><span class="p">(</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">prompt</span><span class="p">))</span>
+
+<span class="k">def</span> <span class="nf">play</span><span class="p">(</span><span class="n">instruction</span><span class="p">):</span>
+  <span class="n">message</span><span class="p">,</span> <span class="n">prompt</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">play</span><span class="p">(</span><span class="n">instruction</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">prompt</span><span class="p">:</span>
+    <span class="n">history</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">separator</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">prompt</span><span class="p">:</span>
+        <span class="n">history</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+    <span class="n">images</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">generate</span><span class="p">(</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">prompt</span><span class="p">))[</span><span class="mi">0</span><span class="p">])</span>
+  <span class="k">if</span> <span class="n">message</span><span class="p">:</span>
+    <span class="n">history</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">separator</span><span class="p">)</span>
+    <span class="n">history</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+    <span class="n">images</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">generate</span><span class="p">(</span><span class="n">message</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+  <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">history</span><span class="p">),</span> <span class="n">images</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">gr</span><span class="o">.</span><span class="n">Blocks</span><span class="p">()</span> <span class="k">as</span> <span class="n">demo</span><span class="p">:</span>
+  <span class="k">with</span> <span class="n">gr</span><span class="o">.</span><span class="n">Row</span><span class="p">():</span>
+    <span class="k">with</span> <span class="n">gr</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">min_width</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
+      <span class="n">image</span> <span class="o">=</span> <span class="n">gr</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">images</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">with</span> <span class="n">gr</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">min_width</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
+      <span class="n">text</span> <span class="o">=</span> <span class="n">gr</span><span class="o">.</span><span class="n">TextArea</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">history</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Output&quot;</span><span class="p">,</span> <span class="n">interactive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+      <span class="n">prompt</span> <span class="o">=</span> <span class="n">gr</span><span class="o">.</span><span class="n">Textbox</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Input&quot;</span><span class="p">,</span> <span class="n">placeholder</span><span class="o">=</span><span class="s2">&quot;What do you do?&quot;</span><span class="p">)</span>
+      <span class="n">submit_btn</span> <span class="o">=</span> <span class="n">gr</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="s2">&quot;Submit&quot;</span><span class="p">)</span>
+      <span class="n">submit_btn</span><span class="o">.</span><span class="n">click</span><span class="p">(</span><span class="n">fn</span><span class="o">=</span><span class="n">play</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="n">prompt</span><span class="p">,</span> <span class="n">outputs</span><span class="o">=</span><span class="p">[</span><span class="n">text</span><span class="p">,</span> <span class="n">image</span><span class="p">])</span>
+
+<span class="n">demo</span><span class="o">.</span><span class="n">launch</span><span class="p">(</span><span class="n">share</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Colab notebook detected. This cell will run indefinitely so that you can see errors and logs. To turn off, set debug=False in launch().
+Running on public URL: https://7a70b01e-cbaf-41cf.gradio.live
+
+This share link expires in 72 hours. For free permanent hosting and GPU upgrades (NEW!), check out Spaces: https://huggingface.co/spaces
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<div><iframe src="https://7a70b01e-cbaf-41cf.gradio.live" width="100%" height="500" allow="autoplay; camera; microphone; clipboard-read; clipboard-write;" frameborder="0" allowfullscreen=""></iframe></div>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Keyboard interruption in main thread... closing server.
+Killing tunnel 127.0.0.1:7860 &lt;&gt; https://7a70b01e-cbaf-41cf.gradio.live
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre></pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="That's-all-folks">That's all folks<a class="anchor-link" href="#That's-all-folks"> </a></h2><p>Stable Diffusion is a very neat model allowing the generation of images from text. In this article, we explored the use case of remaking a text-based game with Stable Diffusion.</p>
+<p>I hope you enjoyed this article, feel free to leave a comment or reach out on twitter <a href="https://twitter.com/bachiirc">@bachiirc</a>.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="dzlab/notebooks"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/notebooks/flax/vision/diffusion/2023/01/15/Zork_StableDiffusion.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/notebooks/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="https://dzlab.github.io/notebooks/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/notebooks/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>A collection of Jupyter Notebooks beautifully rendered in html.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li>
+  <a rel="me" href="https://github.com/dzlab" target="_blank" title="github">
+    <svg class="svg-icon grey">
+      <use xlink:href="/notebooks/assets/minima-social-icons.svg#github"></use>
+    </svg>
+  </a>
+</li>
+<li>
+  <a rel="me" href="https://twitter.com/bachiirc" target="_blank" title="twitter">
+    <svg class="svg-icon grey">
+      <use xlink:href="/notebooks/assets/minima-social-icons.svg#twitter"></use>
+    </svg>
+  </a>
+</li>
+</ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
