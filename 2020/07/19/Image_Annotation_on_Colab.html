@@ -1,116 +1,4 @@
-<!DOCTYPE html>
-<html lang="en"><head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.1 -->
-<title>Annotation with TensorFlow Object Detection API | notebooks</title>
-<meta name="generator" content="Jekyll v4.0.1" />
-<meta property="og:title" content="Annotation with TensorFlow Object Detection API" />
-<meta property="og:locale" content="en_US" />
-<meta name="description" content="A collection of Jupyter Notebooks beautifully rendered in html." />
-<meta property="og:description" content="A collection of Jupyter Notebooks beautifully rendered in html." />
-<link rel="canonical" href="https://dzlab.github.io/notebooks/2020/07/19/Image_Annotation_on_Colab.html" />
-<meta property="og:url" content="https://dzlab.github.io/notebooks/2020/07/19/Image_Annotation_on_Colab.html" />
-<meta property="og:site_name" content="notebooks" />
-<meta property="og:type" content="article" />
-<meta property="article:published_time" content="2020-07-19T00:00:00-05:00" />
-<script type="application/ld+json">
-{"mainEntityOfPage":{"@type":"WebPage","@id":"https://dzlab.github.io/notebooks/2020/07/19/Image_Annotation_on_Colab.html"},"description":"A collection of Jupyter Notebooks beautifully rendered in html.","@type":"BlogPosting","url":"https://dzlab.github.io/notebooks/2020/07/19/Image_Annotation_on_Colab.html","headline":"Annotation with TensorFlow Object Detection API","dateModified":"2020-07-19T00:00:00-05:00","datePublished":"2020-07-19T00:00:00-05:00","@context":"https://schema.org"}</script>
-<!-- End Jekyll SEO tag -->
-<link rel="stylesheet" href="/notebooks/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://dzlab.github.io/notebooks/feed.xml" title="notebooks" /><!-- the google_analytics_id gets auto inserted from the config file -->
-<meta name="google-site-verification" content="ilXYLP9WtWkhHuj_2OxaJFMS2IP4Pdey8JFu_FlAWaQ" />
-
-
-<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-128961990-1','auto');ga('require','displayfeatures');ga('send','pageview');</script>
-
-<link rel="shortcut icon" type="image/x-icon" href="/notebooks/images/favicon.ico"><!-- Begin Jekyll SEO tag v2.6.1 -->
-<title>Annotation with TensorFlow Object Detection API | notebooks</title>
-<meta name="generator" content="Jekyll v4.0.1" />
-<meta property="og:title" content="Annotation with TensorFlow Object Detection API" />
-<meta property="og:locale" content="en_US" />
-<meta name="description" content="A collection of Jupyter Notebooks beautifully rendered in html." />
-<meta property="og:description" content="A collection of Jupyter Notebooks beautifully rendered in html." />
-<link rel="canonical" href="https://dzlab.github.io/notebooks/2020/07/19/Image_Annotation_on_Colab.html" />
-<meta property="og:url" content="https://dzlab.github.io/notebooks/2020/07/19/Image_Annotation_on_Colab.html" />
-<meta property="og:site_name" content="notebooks" />
-<meta property="og:type" content="article" />
-<meta property="article:published_time" content="2020-07-19T00:00:00-05:00" />
-<script type="application/ld+json">
-{"mainEntityOfPage":{"@type":"WebPage","@id":"https://dzlab.github.io/notebooks/2020/07/19/Image_Annotation_on_Colab.html"},"description":"A collection of Jupyter Notebooks beautifully rendered in html.","@type":"BlogPosting","url":"https://dzlab.github.io/notebooks/2020/07/19/Image_Annotation_on_Colab.html","headline":"Annotation with TensorFlow Object Detection API","dateModified":"2020-07-19T00:00:00-05:00","datePublished":"2020-07-19T00:00:00-05:00","@context":"https://schema.org"}</script>
-<!-- End Jekyll SEO tag -->
-
-<link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" />
-<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css"><link type="application/atom+xml" rel="alternate" href="https://dzlab.github.io/notebooks/feed.xml" title="notebooks" /><!-- the google_analytics_id gets auto inserted from the config file -->
-<meta name="google-site-verification" content="ilXYLP9WtWkhHuj_2OxaJFMS2IP4Pdey8JFu_FlAWaQ" />
-
-
-<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-128961990-1','auto');ga('require','displayfeatures');ga('send','pageview');</script>
-
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
-    <script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"> </script>
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
-    <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        renderMathInElement( document.body, {
-        delimiters: [
-            {left: "$$", right: "$$", display: true},
-            {left: "[%", right: "%]", display: true},
-            {left: "$", right: "$", display: false}
-        ]}
-        );
-    });
-    </script>
-
-
-<script>
-function wrap_img(fn) {
-    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
-        var elements = document.querySelectorAll(".post img");
-        Array.prototype.forEach.call(elements, function(el, i) {
-            if (el.getAttribute("title")) {
-                const caption = document.createElement('figcaption');
-                var node = document.createTextNode(el.getAttribute("title"));
-                caption.appendChild(node);
-                const wrapper = document.createElement('figure');
-                wrapper.className = 'image';
-                el.parentNode.insertBefore(wrapper, el);
-                el.parentNode.removeChild(el);
-                wrapper.appendChild(el);
-                wrapper.appendChild(caption);
-            }
-        });
-    } else { document.addEventListener('DOMContentLoaded', fn); }
-}
-window.onload = wrap_img;
-</script>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function(){
-    // add link icon to anchor tags
-    var elem = document.querySelectorAll(".anchor-link")
-    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
-    });
-</script>
-</head><body><header class="site-header">
-
-  <div class="wrapper"><a class="site-title" rel="author" href="/notebooks/">notebooks</a><nav class="site-nav">
-        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
-        <label for="nav-trigger">
-          <span class="menu-icon">
-            <svg viewBox="0 0 18 15" width="18px" height="15px">
-              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
-            </svg>
-          </span>
-        </label>
-
-        <div class="trigger"><a class="page-link" href="/notebooks/about/">About Me</a><a class="page-link" href="/notebooks/search/">Search</a><a class="page-link" href="/notebooks/categories/">Tags</a></div>
-      </nav></div>
-</header>
-<main class="page-content" aria-label="Content">
-      <div class="wrapper">
-        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+<article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
     <h1 class="post-title p-name" itemprop="name headline">Annotation with TensorFlow Object Detection API</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2020-07-19T00:00:00-05:00" itemprop="datePublished">
@@ -460,10 +348,10 @@ tar xzf images.tar.gz
 
 
 
-<div id="9d5239a9-f3db-49c9-8540-40806c47281c"></div>
+<div id="45fc54e2-5af7-4eac-a9d6-d0da1cf563c4"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#9d5239a9-f3db-49c9-8540-40806c47281c');
+var element = $('#45fc54e2-5af7-4eac-a9d6-d0da1cf563c4');
 
               async function load_image(imgs, callbackId) {
                   //init organizational elements
@@ -773,10 +661,10 @@ var element = $('#9d5239a9-f3db-49c9-8540-40806c47281c');
 
 
 
-<div id="7ac2e363-f221-4ecb-bf50-46e66d402be9"></div>
+<div id="490dd290-fada-4a5c-b403-65445dbf9185"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#7ac2e363-f221-4ecb-bf50-46e66d402be9');
+var element = $('#490dd290-fada-4a5c-b403-65445dbf9185');
 window["404be2a0-c9f4-11ea-b07b-0242ac1c0002"] = google.colab.output.getActiveOutputArea();
 //# sourceURL=js_1f90a00499
 </script>
@@ -789,10 +677,10 @@ window["404be2a0-c9f4-11ea-b07b-0242ac1c0002"] = google.colab.output.getActiveOu
 
 
 
-<div id="2b395e6e-7278-49d6-8ebf-99b7da721d2e"></div>
+<div id="ff6a47fb-ec4b-4abd-aeda-c2e8bd0f1642"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#2b395e6e-7278-49d6-8ebf-99b7da721d2e');
+var element = $('#ff6a47fb-ec4b-4abd-aeda-c2e8bd0f1642');
 window["404c3890-c9f4-11ea-b07b-0242ac1c0002"] = document.querySelector("#errorlog");
 //# sourceURL=js_771c58cdef
 </script>
@@ -805,10 +693,10 @@ window["404c3890-c9f4-11ea-b07b-0242ac1c0002"] = document.querySelector("#errorl
 
 
 
-<div id="f9279fc4-8c66-490f-8992-aad2fe8579ce"></div>
+<div id="8d8e1dc5-ee99-4dc0-919f-586b90158bab"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#f9279fc4-8c66-490f-8992-aad2fe8579ce');
+var element = $('#8d8e1dc5-ee99-4dc0-919f-586b90158bab');
 window["404ca690-c9f4-11ea-b07b-0242ac1c0002"] = google.colab.output.setActiveOutputArea(window["404c3890-c9f4-11ea-b07b-0242ac1c0002"]);
 //# sourceURL=js_a2ed359a44
 </script>
@@ -831,10 +719,10 @@ window["404ca690-c9f4-11ea-b07b-0242ac1c0002"] = google.colab.output.setActiveOu
 
 
 
-<div id="95880acf-d85a-45c6-8fae-dbd584c1dca1"></div>
+<div id="2e60e29c-5580-4fbf-b784-fcd54832beec"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#95880acf-d85a-45c6-8fae-dbd584c1dca1');
+var element = $('#2e60e29c-5580-4fbf-b784-fcd54832beec');
 window["404d9b22-c9f4-11ea-b07b-0242ac1c0002"] = google.colab.output.setActiveOutputArea(window["404be2a0-c9f4-11ea-b07b-0242ac1c0002"]);
 //# sourceURL=js_09a0417ebd
 </script>
@@ -847,10 +735,10 @@ window["404d9b22-c9f4-11ea-b07b-0242ac1c0002"] = google.colab.output.setActiveOu
 
 
 
-<div id="3e58abe4-3b14-48ce-bd15-5ac0adb0056d"></div>
+<div id="84d0f700-d87b-4089-90a2-1357abe55f1e"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#3e58abe4-3b14-48ce-bd15-5ac0adb0056d');
+var element = $('#84d0f700-d87b-4089-90a2-1357abe55f1e');
 window["462883fe-c9f4-11ea-b07b-0242ac1c0002"] = google.colab.output.getActiveOutputArea();
 //# sourceURL=js_ba5bb3ba4d
 </script>
@@ -863,10 +751,10 @@ window["462883fe-c9f4-11ea-b07b-0242ac1c0002"] = google.colab.output.getActiveOu
 
 
 
-<div id="46ff0923-8abe-420d-a6a6-09ee3989f59a"></div>
+<div id="f8becce8-9264-45d9-a2bc-8c5067172dcc"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#46ff0923-8abe-420d-a6a6-09ee3989f59a');
+var element = $('#f8becce8-9264-45d9-a2bc-8c5067172dcc');
 window["4628dbf6-c9f4-11ea-b07b-0242ac1c0002"] = document.querySelector("#errorlog");
 //# sourceURL=js_7de7369847
 </script>
@@ -879,10 +767,10 @@ window["4628dbf6-c9f4-11ea-b07b-0242ac1c0002"] = document.querySelector("#errorl
 
 
 
-<div id="697a7cbc-d6ad-4ea6-a815-68535c69039f"></div>
+<div id="813d3043-6511-439b-8ac8-25e62731192b"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#697a7cbc-d6ad-4ea6-a815-68535c69039f');
+var element = $('#813d3043-6511-439b-8ac8-25e62731192b');
 window["462930a6-c9f4-11ea-b07b-0242ac1c0002"] = google.colab.output.setActiveOutputArea(window["4628dbf6-c9f4-11ea-b07b-0242ac1c0002"]);
 //# sourceURL=js_6ae0f84722
 </script>
@@ -905,10 +793,10 @@ window["462930a6-c9f4-11ea-b07b-0242ac1c0002"] = google.colab.output.setActiveOu
 
 
 
-<div id="974a46a7-152b-4f6d-aee3-50fa95c8eac1"></div>
+<div id="7c9efcbc-7b74-43de-8e9c-69039ca24a53"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#974a46a7-152b-4f6d-aee3-50fa95c8eac1');
+var element = $('#7c9efcbc-7b74-43de-8e9c-69039ca24a53');
 window["4629c76e-c9f4-11ea-b07b-0242ac1c0002"] = google.colab.output.setActiveOutputArea(window["462883fe-c9f4-11ea-b07b-0242ac1c0002"]);
 //# sourceURL=js_84db47f843
 </script>
@@ -921,10 +809,10 @@ window["4629c76e-c9f4-11ea-b07b-0242ac1c0002"] = google.colab.output.setActiveOu
 
 
 
-<div id="e35dc1a6-0561-47aa-81b4-83f4b8c80f10"></div>
+<div id="e1889e65-e4be-448f-a50d-226a751058ad"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#e35dc1a6-0561-47aa-81b4-83f4b8c80f10');
+var element = $('#e1889e65-e4be-448f-a50d-226a751058ad');
 window["4e65381e-c9f4-11ea-b07b-0242ac1c0002"] = google.colab.output.getActiveOutputArea();
 //# sourceURL=js_e1bdfabbc1
 </script>
@@ -937,10 +825,10 @@ window["4e65381e-c9f4-11ea-b07b-0242ac1c0002"] = google.colab.output.getActiveOu
 
 
 
-<div id="026f37f2-b2e5-4a05-ba75-87df56a9be14"></div>
+<div id="4548821d-8b08-4f0e-85ff-1279b787b788"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#026f37f2-b2e5-4a05-ba75-87df56a9be14');
+var element = $('#4548821d-8b08-4f0e-85ff-1279b787b788');
 window["4e6588f0-c9f4-11ea-b07b-0242ac1c0002"] = document.querySelector("#errorlog");
 //# sourceURL=js_89eb99579c
 </script>
@@ -953,10 +841,10 @@ window["4e6588f0-c9f4-11ea-b07b-0242ac1c0002"] = document.querySelector("#errorl
 
 
 
-<div id="d85a3b68-8be5-4d04-8782-19646597136b"></div>
+<div id="78dbdf78-b89d-4895-933b-8c2fc587c9b5"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#d85a3b68-8be5-4d04-8782-19646597136b');
+var element = $('#78dbdf78-b89d-4895-933b-8c2fc587c9b5');
 window["4e65c81a-c9f4-11ea-b07b-0242ac1c0002"] = google.colab.output.setActiveOutputArea(window["4e6588f0-c9f4-11ea-b07b-0242ac1c0002"]);
 //# sourceURL=js_a7be22e9f4
 </script>
@@ -979,10 +867,10 @@ window["4e65c81a-c9f4-11ea-b07b-0242ac1c0002"] = google.colab.output.setActiveOu
 
 
 
-<div id="834463be-6a3e-4f65-88a4-a41587dcf27e"></div>
+<div id="5feb4d80-9faf-4e1b-b04a-16fd1a52cdfc"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#834463be-6a3e-4f65-88a4-a41587dcf27e');
+var element = $('#5feb4d80-9faf-4e1b-b04a-16fd1a52cdfc');
 window["4e665d48-c9f4-11ea-b07b-0242ac1c0002"] = google.colab.output.setActiveOutputArea(window["4e65381e-c9f4-11ea-b07b-0242ac1c0002"]);
 //# sourceURL=js_20872cc92b
 </script>
@@ -995,10 +883,10 @@ window["4e665d48-c9f4-11ea-b07b-0242ac1c0002"] = google.colab.output.setActiveOu
 
 
 
-<div id="bc76969e-1ffa-4bd0-8cdc-6fa2204af539"></div>
+<div id="812aa1b6-6875-4afd-9270-9783def53b6c"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#bc76969e-1ffa-4bd0-8cdc-6fa2204af539');
+var element = $('#812aa1b6-6875-4afd-9270-9783def53b6c');
 window["5526b66e-c9f4-11ea-b07b-0242ac1c0002"] = google.colab.output.getActiveOutputArea();
 //# sourceURL=js_f6778eb705
 </script>
@@ -1011,10 +899,10 @@ window["5526b66e-c9f4-11ea-b07b-0242ac1c0002"] = google.colab.output.getActiveOu
 
 
 
-<div id="3ed46b8b-6f86-48f7-a52c-8e0f5cd22c10"></div>
+<div id="e8af6e70-7528-46ba-a725-b3920b39df9d"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#3ed46b8b-6f86-48f7-a52c-8e0f5cd22c10');
+var element = $('#e8af6e70-7528-46ba-a725-b3920b39df9d');
 window["55272888-c9f4-11ea-b07b-0242ac1c0002"] = document.querySelector("#errorlog");
 //# sourceURL=js_296ab2cf3b
 </script>
@@ -1027,10 +915,10 @@ window["55272888-c9f4-11ea-b07b-0242ac1c0002"] = document.querySelector("#errorl
 
 
 
-<div id="5cd590c2-7bc6-4f57-bc4d-3c72979c0407"></div>
+<div id="dfe44fbe-d8ab-43bb-9ca6-9b618e4ee53c"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#5cd590c2-7bc6-4f57-bc4d-3c72979c0407');
+var element = $('#dfe44fbe-d8ab-43bb-9ca6-9b618e4ee53c');
 window["55279480-c9f4-11ea-b07b-0242ac1c0002"] = google.colab.output.setActiveOutputArea(window["55272888-c9f4-11ea-b07b-0242ac1c0002"]);
 //# sourceURL=js_50dcfe1e99
 </script>
@@ -1053,10 +941,10 @@ window["55279480-c9f4-11ea-b07b-0242ac1c0002"] = google.colab.output.setActiveOu
 
 
 
-<div id="cf2d0562-14d8-479f-8f0e-9e6cb02cb1a1"></div>
+<div id="8b9fb2a0-5b0b-414d-9bc7-1a02cb7ce12c"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#cf2d0562-14d8-479f-8f0e-9e6cb02cb1a1');
+var element = $('#8b9fb2a0-5b0b-414d-9bc7-1a02cb7ce12c');
 window["5529a360-c9f4-11ea-b07b-0242ac1c0002"] = google.colab.output.setActiveOutputArea(window["5526b66e-c9f4-11ea-b07b-0242ac1c0002"]);
 //# sourceURL=js_d09e6f3c89
 </script>
@@ -1069,10 +957,10 @@ window["5529a360-c9f4-11ea-b07b-0242ac1c0002"] = google.colab.output.setActiveOu
 
 
 
-<div id="2ae157db-2374-4bae-9c99-34565959948a"></div>
+<div id="a6639059-7683-40fc-83a5-9a439331b28e"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#2ae157db-2374-4bae-9c99-34565959948a');
+var element = $('#a6639059-7683-40fc-83a5-9a439331b28e');
 window["5a638760-c9f4-11ea-b07b-0242ac1c0002"] = google.colab.output.getActiveOutputArea();
 //# sourceURL=js_2a00948877
 </script>
@@ -1085,10 +973,10 @@ window["5a638760-c9f4-11ea-b07b-0242ac1c0002"] = google.colab.output.getActiveOu
 
 
 
-<div id="b76de868-58fa-4f30-97f7-c9664e01df04"></div>
+<div id="04378637-4ab0-41dc-b8f8-73c10368cbdb"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#b76de868-58fa-4f30-97f7-c9664e01df04');
+var element = $('#04378637-4ab0-41dc-b8f8-73c10368cbdb');
 window["5a6442f4-c9f4-11ea-b07b-0242ac1c0002"] = document.querySelector("#errorlog");
 //# sourceURL=js_a7755ac9e9
 </script>
@@ -1101,10 +989,10 @@ window["5a6442f4-c9f4-11ea-b07b-0242ac1c0002"] = document.querySelector("#errorl
 
 
 
-<div id="ef33eaf4-9c14-419a-88e8-4081a6d13745"></div>
+<div id="6b11bf0a-085f-4106-b59e-aab3e0e45f4c"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#ef33eaf4-9c14-419a-88e8-4081a6d13745');
+var element = $('#6b11bf0a-085f-4106-b59e-aab3e0e45f4c');
 window["5a650036-c9f4-11ea-b07b-0242ac1c0002"] = google.colab.output.setActiveOutputArea(window["5a6442f4-c9f4-11ea-b07b-0242ac1c0002"]);
 //# sourceURL=js_ca0f6e1dee
 </script>
@@ -1127,10 +1015,10 @@ window["5a650036-c9f4-11ea-b07b-0242ac1c0002"] = google.colab.output.setActiveOu
 
 
 
-<div id="846863c3-1c9e-47fc-ac10-1613651d6d4a"></div>
+<div id="17b65214-f9b9-4c46-a506-219c7dc7f750"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#846863c3-1c9e-47fc-ac10-1613651d6d4a');
+var element = $('#17b65214-f9b9-4c46-a506-219c7dc7f750');
 window["5a664e32-c9f4-11ea-b07b-0242ac1c0002"] = google.colab.output.setActiveOutputArea(window["5a638760-c9f4-11ea-b07b-0242ac1c0002"]);
 //# sourceURL=js_d3efb79d83
 </script>
@@ -1143,10 +1031,10 @@ window["5a664e32-c9f4-11ea-b07b-0242ac1c0002"] = google.colab.output.setActiveOu
 
 
 
-<div id="bcc839dc-3a81-4f34-854e-78c8dc782a9f"></div>
+<div id="a34a5bb5-01b9-4418-909b-ebe9bf00560a"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#bcc839dc-3a81-4f34-854e-78c8dc782a9f');
+var element = $('#a34a5bb5-01b9-4418-909b-ebe9bf00560a');
 window["61783546-c9f4-11ea-b07b-0242ac1c0002"] = google.colab.output.getActiveOutputArea();
 //# sourceURL=js_97df5c4688
 </script>
@@ -1159,10 +1047,10 @@ window["61783546-c9f4-11ea-b07b-0242ac1c0002"] = google.colab.output.getActiveOu
 
 
 
-<div id="de21b4a3-cd0f-4b57-9660-c04c100de4fd"></div>
+<div id="115b4e5a-d2a4-421a-a173-06795dd89a87"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#de21b4a3-cd0f-4b57-9660-c04c100de4fd');
+var element = $('#115b4e5a-d2a4-421a-a173-06795dd89a87');
 window["617883de-c9f4-11ea-b07b-0242ac1c0002"] = document.querySelector("#errorlog");
 //# sourceURL=js_ae2707e2ca
 </script>
@@ -1175,10 +1063,10 @@ window["617883de-c9f4-11ea-b07b-0242ac1c0002"] = document.querySelector("#errorl
 
 
 
-<div id="7dfd4c59-74c9-4cbd-870c-f5f843978de6"></div>
+<div id="3507a2d0-bc2a-4b4b-b276-1fca3c345413"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#7dfd4c59-74c9-4cbd-870c-f5f843978de6');
+var element = $('#3507a2d0-bc2a-4b4b-b276-1fca3c345413');
 window["6178cd08-c9f4-11ea-b07b-0242ac1c0002"] = google.colab.output.setActiveOutputArea(window["617883de-c9f4-11ea-b07b-0242ac1c0002"]);
 //# sourceURL=js_a682f2a641
 </script>
@@ -1201,10 +1089,10 @@ window["6178cd08-c9f4-11ea-b07b-0242ac1c0002"] = google.colab.output.setActiveOu
 
 
 
-<div id="ca45746e-7794-47e7-aad1-fa61739d52db"></div>
+<div id="697bf65e-66c0-4d0e-b24e-a19e315816c7"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#ca45746e-7794-47e7-aad1-fa61739d52db');
+var element = $('#697bf65e-66c0-4d0e-b24e-a19e315816c7');
 window["61793fae-c9f4-11ea-b07b-0242ac1c0002"] = google.colab.output.setActiveOutputArea(window["61783546-c9f4-11ea-b07b-0242ac1c0002"]);
 //# sourceURL=js_6aad9fddf4
 </script>
@@ -1217,10 +1105,10 @@ window["61793fae-c9f4-11ea-b07b-0242ac1c0002"] = google.colab.output.setActiveOu
 
 
 
-<div id="d2951591-330e-48fe-b751-6cd5250fd606"></div>
+<div id="aaaec064-5d51-4eaa-8937-69994af20dc7"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#d2951591-330e-48fe-b751-6cd5250fd606');
+var element = $('#aaaec064-5d51-4eaa-8937-69994af20dc7');
 window["6644a500-c9f4-11ea-b07b-0242ac1c0002"] = google.colab.output.getActiveOutputArea();
 //# sourceURL=js_ff868f2f6c
 </script>
@@ -1233,10 +1121,10 @@ window["6644a500-c9f4-11ea-b07b-0242ac1c0002"] = google.colab.output.getActiveOu
 
 
 
-<div id="0d8ebef9-2d46-4837-ae2e-96ec372b4d9d"></div>
+<div id="2474f827-b90d-47db-8e85-1132d2284fda"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#0d8ebef9-2d46-4837-ae2e-96ec372b4d9d');
+var element = $('#2474f827-b90d-47db-8e85-1132d2284fda');
 window["6644f8fc-c9f4-11ea-b07b-0242ac1c0002"] = document.querySelector("#errorlog");
 //# sourceURL=js_1c49ed9749
 </script>
@@ -1249,10 +1137,10 @@ window["6644f8fc-c9f4-11ea-b07b-0242ac1c0002"] = document.querySelector("#errorl
 
 
 
-<div id="01a27168-28ea-4faf-8ae1-d1d347ea915b"></div>
+<div id="582d6aec-5967-427e-adac-a5e1617675d7"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#01a27168-28ea-4faf-8ae1-d1d347ea915b');
+var element = $('#582d6aec-5967-427e-adac-a5e1617675d7');
 window["664550f4-c9f4-11ea-b07b-0242ac1c0002"] = google.colab.output.setActiveOutputArea(window["6644f8fc-c9f4-11ea-b07b-0242ac1c0002"]);
 //# sourceURL=js_012390d6a8
 </script>
@@ -1275,10 +1163,10 @@ window["664550f4-c9f4-11ea-b07b-0242ac1c0002"] = google.colab.output.setActiveOu
 
 
 
-<div id="f980a023-3b93-4b68-8e34-845391166ebc"></div>
+<div id="ffde6a26-71fb-48bb-aa72-e9811cd361ff"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#f980a023-3b93-4b68-8e34-845391166ebc');
+var element = $('#ffde6a26-71fb-48bb-aa72-e9811cd361ff');
 window["664610f2-c9f4-11ea-b07b-0242ac1c0002"] = google.colab.output.setActiveOutputArea(window["6644a500-c9f4-11ea-b07b-0242ac1c0002"]);
 //# sourceURL=js_3caf496c73
 </script>
@@ -1291,10 +1179,10 @@ window["664610f2-c9f4-11ea-b07b-0242ac1c0002"] = google.colab.output.setActiveOu
 
 
 
-<div id="570943e2-37ca-43be-96d3-51a134cdccc8"></div>
+<div id="6e393397-68dc-4d0a-8833-367b168e6226"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#570943e2-37ca-43be-96d3-51a134cdccc8');
+var element = $('#6e393397-68dc-4d0a-8833-367b168e6226');
 window["6ac81080-c9f4-11ea-b07b-0242ac1c0002"] = google.colab.output.getActiveOutputArea();
 //# sourceURL=js_fb33fc476a
 </script>
@@ -1307,10 +1195,10 @@ window["6ac81080-c9f4-11ea-b07b-0242ac1c0002"] = google.colab.output.getActiveOu
 
 
 
-<div id="b713ac01-7b47-4824-9ff9-723299979e08"></div>
+<div id="cea5a1b5-9f2f-47f2-acd2-06cd9a69513b"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#b713ac01-7b47-4824-9ff9-723299979e08');
+var element = $('#cea5a1b5-9f2f-47f2-acd2-06cd9a69513b');
 window["6ac8a43c-c9f4-11ea-b07b-0242ac1c0002"] = document.querySelector("#errorlog");
 //# sourceURL=js_48f3fcd8f2
 </script>
@@ -1323,10 +1211,10 @@ window["6ac8a43c-c9f4-11ea-b07b-0242ac1c0002"] = document.querySelector("#errorl
 
 
 
-<div id="0c41e6b8-ec8b-444a-a4b3-b9481f910395"></div>
+<div id="550483d1-6eef-4873-9b72-1fb3c1f03645"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#0c41e6b8-ec8b-444a-a4b3-b9481f910395');
+var element = $('#550483d1-6eef-4873-9b72-1fb3c1f03645');
 window["6ac959fe-c9f4-11ea-b07b-0242ac1c0002"] = google.colab.output.setActiveOutputArea(window["6ac8a43c-c9f4-11ea-b07b-0242ac1c0002"]);
 //# sourceURL=js_44ae1673b2
 </script>
@@ -1349,10 +1237,10 @@ window["6ac959fe-c9f4-11ea-b07b-0242ac1c0002"] = google.colab.output.setActiveOu
 
 
 
-<div id="636945c9-5f43-405c-b803-017acc2f287b"></div>
+<div id="b9579293-3cf5-430f-bd06-d3b01bb6717e"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#636945c9-5f43-405c-b803-017acc2f287b');
+var element = $('#b9579293-3cf5-430f-bd06-d3b01bb6717e');
 window["6acdb436-c9f4-11ea-b07b-0242ac1c0002"] = google.colab.output.setActiveOutputArea(window["6ac81080-c9f4-11ea-b07b-0242ac1c0002"]);
 //# sourceURL=js_394312bfb9
 </script>
@@ -1365,10 +1253,10 @@ window["6acdb436-c9f4-11ea-b07b-0242ac1c0002"] = google.colab.output.setActiveOu
 
 
 
-<div id="686e081c-bdb7-469a-a812-de5ceaaf4cfa"></div>
+<div id="1b5c81a6-f69c-4b42-aa62-45c62bc8d218"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#686e081c-bdb7-469a-a812-de5ceaaf4cfa');
+var element = $('#1b5c81a6-f69c-4b42-aa62-45c62bc8d218');
 window["70a65836-c9f4-11ea-b07b-0242ac1c0002"] = google.colab.output.getActiveOutputArea();
 //# sourceURL=js_3a30406033
 </script>
@@ -1381,10 +1269,10 @@ window["70a65836-c9f4-11ea-b07b-0242ac1c0002"] = google.colab.output.getActiveOu
 
 
 
-<div id="0f0ac8e2-3556-4a74-9f76-fd4629c906c0"></div>
+<div id="eaaef034-3dd8-42d1-8999-4a33ad38c908"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#0f0ac8e2-3556-4a74-9f76-fd4629c906c0');
+var element = $('#eaaef034-3dd8-42d1-8999-4a33ad38c908');
 window["70a6acfa-c9f4-11ea-b07b-0242ac1c0002"] = document.querySelector("#errorlog");
 //# sourceURL=js_7ff15eda2b
 </script>
@@ -1397,10 +1285,10 @@ window["70a6acfa-c9f4-11ea-b07b-0242ac1c0002"] = document.querySelector("#errorl
 
 
 
-<div id="69a9c70b-5b6b-45b4-a4cc-f76c0d65b6d0"></div>
+<div id="04d7c12a-5ff1-4a2e-9cfa-519e971c0d2c"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#69a9c70b-5b6b-45b4-a4cc-f76c0d65b6d0');
+var element = $('#04d7c12a-5ff1-4a2e-9cfa-519e971c0d2c');
 window["70a721ee-c9f4-11ea-b07b-0242ac1c0002"] = google.colab.output.setActiveOutputArea(window["70a6acfa-c9f4-11ea-b07b-0242ac1c0002"]);
 //# sourceURL=js_ce5bc71ae5
 </script>
@@ -1423,10 +1311,10 @@ window["70a721ee-c9f4-11ea-b07b-0242ac1c0002"] = google.colab.output.setActiveOu
 
 
 
-<div id="e0e9ecf2-c4f0-473d-88fc-e5ad1c1d9269"></div>
+<div id="5c7e9a06-4acd-43f8-afaa-2a911deae487"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#e0e9ecf2-c4f0-473d-88fc-e5ad1c1d9269');
+var element = $('#5c7e9a06-4acd-43f8-afaa-2a911deae487');
 window["70a82c42-c9f4-11ea-b07b-0242ac1c0002"] = google.colab.output.setActiveOutputArea(window["70a65836-c9f4-11ea-b07b-0242ac1c0002"]);
 //# sourceURL=js_315ddd37b2
 </script>
@@ -1439,10 +1327,10 @@ window["70a82c42-c9f4-11ea-b07b-0242ac1c0002"] = google.colab.output.setActiveOu
 
 
 
-<div id="900d1e55-2914-4056-8e7a-0a127e6b2772"></div>
+<div id="1cebcd78-53dc-409e-9a51-527a240a8b4a"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#900d1e55-2914-4056-8e7a-0a127e6b2772');
+var element = $('#1cebcd78-53dc-409e-9a51-527a240a8b4a');
 window["76fab858-c9f4-11ea-b07b-0242ac1c0002"] = google.colab.output.getActiveOutputArea();
 //# sourceURL=js_08ffbcac41
 </script>
@@ -1455,10 +1343,10 @@ window["76fab858-c9f4-11ea-b07b-0242ac1c0002"] = google.colab.output.getActiveOu
 
 
 
-<div id="8d9df190-5b95-4116-85ba-9b4d45b3484c"></div>
+<div id="be23893f-463f-4579-bdd8-d847c095c9d6"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#8d9df190-5b95-4116-85ba-9b4d45b3484c');
+var element = $('#be23893f-463f-4579-bdd8-d847c095c9d6');
 window["76fb074a-c9f4-11ea-b07b-0242ac1c0002"] = document.querySelector("#errorlog");
 //# sourceURL=js_db267ef2f0
 </script>
@@ -1471,10 +1359,10 @@ window["76fb074a-c9f4-11ea-b07b-0242ac1c0002"] = document.querySelector("#errorl
 
 
 
-<div id="3e15ea43-9d89-4c9a-b5b9-7a90f8bfcecf"></div>
+<div id="b9582c47-3531-4e4f-9d11-b48c4998d070"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#3e15ea43-9d89-4c9a-b5b9-7a90f8bfcecf');
+var element = $('#b9582c47-3531-4e4f-9d11-b48c4998d070');
 window["76fb6c9e-c9f4-11ea-b07b-0242ac1c0002"] = google.colab.output.setActiveOutputArea(window["76fb074a-c9f4-11ea-b07b-0242ac1c0002"]);
 //# sourceURL=js_b524e3b2b1
 </script>
@@ -1497,10 +1385,10 @@ window["76fb6c9e-c9f4-11ea-b07b-0242ac1c0002"] = google.colab.output.setActiveOu
 
 
 
-<div id="dd11e248-a9da-41da-a129-d5932204a889"></div>
+<div id="910c27fd-e5eb-4a96-9ae4-5adc9c192edb"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#dd11e248-a9da-41da-a129-d5932204a889');
+var element = $('#910c27fd-e5eb-4a96-9ae4-5adc9c192edb');
 window["76fc9baa-c9f4-11ea-b07b-0242ac1c0002"] = google.colab.output.setActiveOutputArea(window["76fab858-c9f4-11ea-b07b-0242ac1c0002"]);
 //# sourceURL=js_005e2617de
 </script>
@@ -1680,47 +1568,3 @@ window["76fc9baa-c9f4-11ea-b07b-0242ac1c0002"] = google.colab.output.setActiveOu
 
   </div><a class="u-url" href="/notebooks/2020/07/19/Image_Annotation_on_Colab.html" hidden></a>
 </article>
-      </div>
-    </main><footer class="site-footer h-card">
-  <data class="u-url" href="/notebooks/"></data>
-
-  <div class="wrapper">
-
-    <div class="footer-col-wrapper">
-      <div class="footer-col">
-        <p class="feed-subscribe">
-          <a href="https://dzlab.github.io/notebooks/feed.xml">
-            <svg class="svg-icon orange">
-              <use xlink:href="/notebooks/assets/minima-social-icons.svg#rss"></use>
-            </svg><span>Subscribe</span>
-          </a>
-        </p>
-      </div>
-      <div class="footer-col">
-        <p>A collection of Jupyter Notebooks beautifully rendered in html.</p>
-      </div>
-    </div>
-
-    <div class="social-links"><ul class="social-media-list"><li>
-  <a rel="me" href="https://github.com/dzlab" target="_blank" title="github">
-    <svg class="svg-icon grey">
-      <use xlink:href="/notebooks/assets/minima-social-icons.svg#github"></use>
-    </svg>
-  </a>
-</li>
-<li>
-  <a rel="me" href="https://twitter.com/bachiirc" target="_blank" title="twitter">
-    <svg class="svg-icon grey">
-      <use xlink:href="/notebooks/assets/minima-social-icons.svg#twitter"></use>
-    </svg>
-  </a>
-</li>
-</ul>
-</div>
-
-  </div>
-
-</footer>
-</body>
-
-</html>
