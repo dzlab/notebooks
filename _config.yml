@@ -10,7 +10,7 @@ title: notebooks
 description: A collection of Jupyter Notebooks beautifully rendered in html.
 github_username: dzlab
 # you can comment the below line out if your repo name is not different than your baseurl
-github_repo: "notebooks"
+github_repo: "fastpages"
 
 # OPTIONAL: override baseurl and url if using a custom domain
 # Note: leave out the trailing / from this value. 
